@@ -6,11 +6,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Folder Include="Core\" />
     <Folder Include="wwwroot\" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0-preview1-final" />
+    <PackageReference Include="YamlDotNet" Version="4.2.0" />
   </ItemGroup>
 
 </Project>
