@@ -18,10 +18,14 @@ namespace Corwords.Core
         {
             HasYaml = false;
             Raw = content;
+            Parse();
         }
 
         public void Parse()
         {
+            // Set Markdown to Raw upfront
+            Markdown = Raw;
+
             // Determine if the document is being described
             var startYaml = Raw.IndexOf("---");
             if (startYaml >= 0)
@@ -40,8 +44,8 @@ namespace Corwords.Core
             }
 
             /// TODO Parse Markdown content
-            var md = new Markdown();
-            Html = md.Transform(Markdown);
+            var md = new Markdown(new MarkdownOptions() { LinkEmails = true, AutoHyperlink = true, AutoNewlines = false });
+            Html = md.Transform(Markdown).Trim();
         }
     }
 }

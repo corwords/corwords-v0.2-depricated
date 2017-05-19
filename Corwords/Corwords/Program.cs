@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Corwords.Core;
 
 namespace Corwords
 {
@@ -14,6 +15,9 @@ namespace Corwords
     {
         public static void Main(string[] args)
         {
+            var md = "# Hello World!";
+            var cordoc = new Cordoc(md);
+
             BuildWebHost(args).Run();
         }
 
