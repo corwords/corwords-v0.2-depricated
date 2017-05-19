@@ -8,11 +8,19 @@ namespace Corwords.Tests
     public class BaseTests
     {
         [TestMethod]
-        public void TestHeading()
+        public void TestBasicHeading()
         {
-            var currentBed = new TestBed("TestHeading");
+            var currentBed = new TestBed("BasicHeading");
             var cordoc = new Cordoc(currentBed.Markdown);
-            Assert.AreEqual(cordoc.Html, currentBed.Html);
+            Assert.AreEqual(currentBed.Html, cordoc.Html);
+        }
+
+        [TestMethod]
+        public void TestYamlAndMarkdown()
+        {
+            var currentBed = new TestBed("YamlAndMarkdown");
+            var cordoc = new Cordoc(currentBed.Markdown);
+            Assert.AreEqual(currentBed.Html, cordoc.Html);
         }
     }
 }

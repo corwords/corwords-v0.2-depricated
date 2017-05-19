@@ -17,8 +17,8 @@ namespace Corwords.Tests
 
         public TestBed(string testName)
         {
-            Markdown = File.ReadAllText(_TestBedFolder() + testName + ".md");
-            Html = File.ReadAllText(_TestBedFolder() + testName + ".htm");
+            Markdown = File.ReadAllText(_TestBedFolder() + testName + "/" + testName + ".md");
+            Html = File.ReadAllText(_TestBedFolder() + testName + "/" + testName + ".htm");
         }
     }
 }
