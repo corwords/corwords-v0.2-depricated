@@ -1,6 +1,7 @@
 using Corwords.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace Corwords.Tests
 {
@@ -12,15 +13,23 @@ namespace Corwords.Tests
         {
             var currentBed = new TestBed("BasicHeading");
             var cordoc = new Cordoc(currentBed.Markdown);
-            Assert.AreEqual(currentBed.Html, cordoc.Html);
+
+            var expected = Regex.Replace(currentBed.Html, @"\r\n?|\n", "");
+            var actual = Regex.Replace(cordoc.Html, @"\r\n?|\n", "");
+
+            Assert.AreEqual(expected, actual);
         }
 
         [TestMethod]
-        public void TestYamlAndMarkdown()
+        public void TestComplexMarkdown()
         {
-            var currentBed = new TestBed("YamlAndMarkdown");
+            var currentBed = new TestBed("ComplexMarkdown");
             var cordoc = new Cordoc(currentBed.Markdown);
-            Assert.AreEqual(currentBed.Html, cordoc.Html);
+
+            var expected = Regex.Replace(currentBed.Html, @"\r\n?|\n", "");
+            var actual = Regex.Replace(cordoc.Html, @"\r\n?|\n", "");
+
+            Assert.AreEqual(expected, actual);
         }
     }
 }
