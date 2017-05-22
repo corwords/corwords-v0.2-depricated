@@ -1,6 +1,5 @@
 using Corwords.Core;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using System.IO;
 using System.Text.RegularExpressions;
 
 namespace Corwords.Tests

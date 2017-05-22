@@ -1,9 +1,7 @@
 ﻿using Corwords.Struct;
 using MarkdownSharp;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace Corwords.Core
 {
@@ -39,13 +37,29 @@ namespace Corwords.Core
                     Yaml = Raw.Substring(0, endYaml + 3);
                     Markdown = Raw.Substring(endYaml + 3);
 
-                    /// TODO Parse Yaml
+                    var deserializer = new DeserializerBuilder().WithNamingConvention(new CamelCaseNamingConvention()).Build();
+                    MapProperties(deserializer.Deserialize<CordocPropStruct>(Yaml));
                 }
             }
 
-            /// TODO Parse Markdown content
             var md = new Markdown(new MarkdownOptions() { LinkEmails = true, AutoHyperlink = true, AutoNewlines = false });
             Html = md.Transform(Markdown).Trim();
+        }
+
+        private void MapProperties(CordocPropStruct props)
+        {
+            Title = props.Title;
+            Description = props.Description;
+            Author = props.Author;
+            DateCreated = props.DateCreated;
+
+            UniqueId = props.UniqueId;
+            UserId = props.UserId;
+            Permalink = props.Permalink;
+            CustomPropertyGraph = props.CustomPropertyGraph;
+            DateUpdated = props.DateUpdated;
+            DatePublished = props.DatePublished;
+            DateExpired = props.DateExpired;
         }
     }
 }
