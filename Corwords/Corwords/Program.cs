@@ -15,7 +15,13 @@ namespace Corwords
     {
         public static void Main(string[] args)
         {
-            var md = "# Hello World!";
+            //var md = "# Hello World!";
+
+            var md = "---" +
+                "Title: Hello World!" +
+                "Author: jgaylord" +
+                "---";
+
             var cordoc = new Cordoc(md);
 
             BuildWebHost(args).Run();

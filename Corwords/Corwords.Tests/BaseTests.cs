@@ -30,5 +30,21 @@ namespace Corwords.Tests
 
             Assert.AreEqual(expected, actual);
         }
+
+        [TestMethod]
+        public void TestYamlTitle()
+        {
+            var currentBed = new TestBed("BasicYaml");
+            var cordoc = new Cordoc(currentBed.Markdown);
+            Assert.AreEqual(cordoc.Title, "Introduction to Corwords");
+        }
+
+        [TestMethod]
+        public void TestYamlAuthor()
+        {
+            var currentBed = new TestBed("BasicYaml");
+            var cordoc = new Cordoc(currentBed.Markdown);
+            Assert.AreEqual(cordoc.Author, "jgaylord");
+        }
     }
 }

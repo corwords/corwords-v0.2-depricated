@@ -1,8 +1,4 @@
-﻿---
-title: Introduction to Corwords
-author: jgaylord
----
-# Introduction to Corwords
+﻿# Introduction to Corwords
 
 By [Jason Gaylord](https://github.com/jgaylord)
 
