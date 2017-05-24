@@ -36,7 +36,7 @@ namespace Corwords.Tests
         {
             var currentBed = new TestBed("BasicYaml");
             var cordoc = new Cordoc(currentBed.Markdown);
-            Assert.AreEqual(cordoc.Title, "Introduction to Corwords");
+            Assert.AreEqual("Introduction to Corwords", cordoc.Title);
         }
 
         [TestMethod]
@@ -44,7 +44,7 @@ namespace Corwords.Tests
         {
             var currentBed = new TestBed("BasicYaml");
             var cordoc = new Cordoc(currentBed.Markdown);
-            Assert.AreEqual(cordoc.Author, "jgaylord");
+            Assert.AreEqual("jgaylord", cordoc.Author);
         }
     }
 }
