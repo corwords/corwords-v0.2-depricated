@@ -15,7 +15,6 @@ namespace Corwords.Services
             throw new NotImplementedException();
         }
 
-
         public Post GetPost(string postid, string username, string password)
         {
             throw new NotImplementedException();
@@ -25,7 +24,6 @@ namespace Corwords.Services
         {
             throw new NotImplementedException();
         }
-
 
         public string AddPost(string blogid, string username, string password, Post post, bool publish)
         {
@@ -41,7 +39,6 @@ namespace Corwords.Services
         {
             throw new NotImplementedException();
         }
-
 
         public CategoryInfo[] GetCategories(string blogid, string username, string password)
         {
