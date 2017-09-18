@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Hosting;
@@ -11,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Corwords.Web.Data;
 using Corwords.Web.Models;
 using Corwords.Web.Services;
+using WilderMinds.MetaWeblog;
 
 namespace Corwords.Web
 {
@@ -32,6 +29,8 @@ namespace Corwords.Web
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
+
+            services.AddMetaWeblog<CorMetaWeblogService>();
 
             // Add application services.
             services.AddTransient<IEmailSender, EmailSender>();
@@ -56,6 +55,8 @@ namespace Corwords.Web
             app.UseStaticFiles();
 
             app.UseAuthentication();
+
+            app.UseMetaWeblog("/metaweblog");
 
             app.UseMvc(routes =>
             {
