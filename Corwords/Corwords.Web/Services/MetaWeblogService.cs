@@ -31,9 +31,9 @@ namespace Corwords.Web.Services
             return new UserInfo()
                         {
                             email = appUser.Email,
-                            firstname = "",
-                            lastname = "",
-                            nickname = "",
+                            firstname = appUser.FirstName,
+                            lastname = appUser.LastName,
+                            nickname = appUser.FirstName,
                             url = ""
                         };
         }
