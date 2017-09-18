@@ -1,13 +1,41 @@
-﻿using System;
+﻿using Corwords.Web.Models;
+using Microsoft.AspNetCore.Identity;
+using System;
 using WilderMinds.MetaWeblog;
 
 namespace Corwords.Web.Services
 {
     public class CorMetaWeblogService : IMetaWeblogProvider
     {
+        private readonly SignInManager<ApplicationUser> _signInManager;
+        private readonly UserManager<ApplicationUser> _userManager;
+
+        public CorMetaWeblogService(
+            SignInManager<ApplicationUser> signInManager,
+            UserManager<ApplicationUser> userManager)
+        {
+            _signInManager = signInManager;
+            _userManager = userManager;
+        }
+
         public UserInfo GetUserInfo(string key, string username, string password)
         {
-            throw new NotImplementedException();
+            if (!Login(username, password))
+                throw new UnauthorizedAccessException("The username and password combination supplied is invalid. Please check the credentials and try again.");
+
+            var mgr = _userManager.FindByNameAsync(username);
+            mgr.RunSynchronously();
+
+            var appUser = mgr.Result;
+
+            return new UserInfo()
+                        {
+                            email = appUser.Email,
+                            firstname = "",
+                            lastname = "",
+                            nickname = "",
+                            url = ""
+                        };
         }
 
         public BlogInfo[] GetUsersBlogs(string key, string username, string password)
@@ -53,6 +81,14 @@ namespace Corwords.Web.Services
         public int AddCategory(string key, string username, string password, NewCategory category)
         {
             throw new NotImplementedException();
+        }
+
+        private bool Login(string username, string password)
+        {
+            var result = _signInManager.PasswordSignInAsync(username, password, false, false);
+            result.RunSynchronously();
+
+            return result.Result.Succeeded;
         }
     }
 }
