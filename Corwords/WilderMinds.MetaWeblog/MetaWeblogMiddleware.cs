@@ -15,17 +15,17 @@ namespace WilderMinds.MetaWeblog
     private MetaWeblogService _service;
     private string _urlEndpoint;
 
-    public MetaWeblogMiddleware(RequestDelegate next, ILoggerFactory loggerFactory, string urlEndpoint, MetaWeblogService service)
+    public MetaWeblogMiddleware(RequestDelegate next, ILoggerFactory loggerFactory, string urlEndpoint)
     {
       _next = next;
       _logger = loggerFactory.CreateLogger<MetaWeblogMiddleware>(); ;
       _urlEndpoint = urlEndpoint;
-      _service = service;
     }
 
-    public async Task Invoke(HttpContext context)
+    public async Task Invoke(HttpContext context, MetaWeblogService service)
     {
-      if (context.Request.Method == "POST" &&
+            _service = service;
+            if (context.Request.Method == "POST" &&
         context.Request.Path.StartsWithSegments(_urlEndpoint) && 
         context.Request != null && 
         context.Request.ContentType.ToLower().Contains("text/xml"))
