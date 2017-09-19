@@ -12,7 +12,6 @@ namespace WilderMinds.MetaWeblog
   {
     private ILogger _logger;
     private readonly RequestDelegate _next;
-    private MetaWeblogService _service;
     private string _urlEndpoint;
 
     public MetaWeblogMiddleware(RequestDelegate next, ILoggerFactory loggerFactory, string urlEndpoint)
@@ -24,7 +23,6 @@ namespace WilderMinds.MetaWeblog
 
     public async Task Invoke(HttpContext context, MetaWeblogService service)
     {
-            _service = service;
             if (context.Request.Method == "POST" &&
         context.Request.Path.StartsWithSegments(_urlEndpoint) && 
         context.Request != null && 
@@ -34,7 +32,7 @@ namespace WilderMinds.MetaWeblog
         var rdr = new StreamReader(context.Request.Body);
         var xml = rdr.ReadToEnd();
         _logger.LogInformation($"Request XMLRPC: {xml}");
-        var result = _service.Invoke(xml);
+        var result = service.Invoke(xml);
         _logger.LogInformation($"Result XMLRPC: {result}");
         await context.Response.WriteAsync(result, Encoding.UTF8);
         return;
