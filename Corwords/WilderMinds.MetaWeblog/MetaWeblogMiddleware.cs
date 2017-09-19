@@ -1,45 +1,43 @@
-﻿using System;
-using System.IO;
+﻿using System.IO;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
 
 namespace WilderMinds.MetaWeblog
 {
-  public class MetaWeblogMiddleware
-  {
-    private ILogger _logger;
-    private readonly RequestDelegate _next;
-    private string _urlEndpoint;
-
-    public MetaWeblogMiddleware(RequestDelegate next, ILoggerFactory loggerFactory, string urlEndpoint)
+    public class MetaWeblogMiddleware
     {
-      _next = next;
-      _logger = loggerFactory.CreateLogger<MetaWeblogMiddleware>(); ;
-      _urlEndpoint = urlEndpoint;
-    }
+        private ILogger _logger;
+        private readonly RequestDelegate _next;
+        private string _urlEndpoint;
 
-    public async Task Invoke(HttpContext context, MetaWeblogService service)
-    {
+        public MetaWeblogMiddleware(RequestDelegate next, ILoggerFactory loggerFactory, string urlEndpoint)
+        {
+            _next = next;
+            _logger = loggerFactory.CreateLogger<MetaWeblogMiddleware>(); ;
+            _urlEndpoint = urlEndpoint;
+        }
+
+        public async Task Invoke(HttpContext context, MetaWeblogService service)
+        {
             if (context.Request.Method == "POST" &&
-        context.Request.Path.StartsWithSegments(_urlEndpoint) && 
-        context.Request != null && 
-        context.Request.ContentType.ToLower().Contains("text/xml"))
-      {
-        context.Response.ContentType = "text/xml";
-        var rdr = new StreamReader(context.Request.Body);
-        var xml = rdr.ReadToEnd();
-        _logger.LogInformation($"Request XMLRPC: {xml}");
-        var result = service.Invoke(xml);
-        _logger.LogInformation($"Result XMLRPC: {result}");
-        await context.Response.WriteAsync(result, Encoding.UTF8);
-        return;
-      }
+                context.Request.Path.StartsWithSegments(_urlEndpoint) &&
+                context.Request != null &&
+                context.Request.ContentType.ToLower().Contains("text/xml"))
+            {
+                context.Response.ContentType = "text/xml";
+                var rdr = new StreamReader(context.Request.Body);
+                var xml = rdr.ReadToEnd();
+                _logger.LogInformation($"Request XMLRPC: {xml}");
+                var result = service.Invoke(xml);
+                _logger.LogInformation($"Result XMLRPC: {result}");
+                await context.Response.WriteAsync(result, Encoding.UTF8);
+                return;
+            }
 
-      // Continue On
-      await _next.Invoke(context);
+            // Continue On
+            await _next.Invoke(context);
+        }
     }
-  }
 }
