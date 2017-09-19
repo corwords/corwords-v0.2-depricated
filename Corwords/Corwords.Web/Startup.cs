@@ -8,6 +8,9 @@ using Corwords.Web.Data;
 using Corwords.Web.Models;
 using Corwords.Web.Services;
 using WilderMinds.MetaWeblog;
+using Corwords.Web.Models.Configuration;
+using Microsoft.AspNetCore.Routing;
+using Corwords.Web.Extensions;
 
 namespace Corwords.Web
 {
@@ -23,16 +26,22 @@ namespace Corwords.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Add AppSettings
+            services.Configure<AppSettings>(Configuration);
+
+            // Add database contexts
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddDbContext<CorwordsDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            // Add Identity
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
+            // Add MetaWeblog
             services.AddMetaWeblog<CorMetaWeblogService>();
 
             // Add application services.
@@ -63,12 +72,16 @@ namespace Corwords.Web
 
             app.UseMetaWeblog("/metaweblog");
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
+            app.UseMvc(ConfigureRoutes);
+        }
+
+        private void ConfigureRoutes(IRouteBuilder routeBuilder)
+        {
+            // First Run Route
+            routeBuilder.MapRoute("firstrun", "{*firstrun}", defaults: new { controller = "Init", action = "Index" }, constraints: new { firstrun = new FirstRunContraint() });
+
+            // Base Route
+            routeBuilder.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}");
         }
     }
 }

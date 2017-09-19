@@ -12,15 +12,9 @@ namespace Corwords.Web.Data
 
         public static void Initialize(ApplicationDbContext appContext, CorwordsDbContext context)
         {
-            // Make sure that the ApplicationDbContext database is created
-            var hasSuccess = appContext.Database.EnsureCreated();
-            if (!hasSuccess)
-                throw new ApplicationException("The ApplicationDbContext database has not been created. Please check the logs and try again.");
-
-            // Make sure that the CorwordsDbContext database is created
-            hasSuccess = context.Database.EnsureCreated();
-            if (!hasSuccess)
-                throw new ApplicationException("The CorwordsDbContext database has not been created. Please check the logs and try again.");
+            // Ensure databases are created
+            appContext.Database.EnsureCreated();
+            context.Database.EnsureCreated();
 
             // Seed the defaults if they do not exist
         }

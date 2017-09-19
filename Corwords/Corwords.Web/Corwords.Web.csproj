@@ -5,7 +5,6 @@
     <UserSecretsId>aspnet-Corwords.Web-7B5732E8-5B78-4059-AD57-B1A01FB18D25</UserSecretsId>
   </PropertyGroup>
 
-
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.0.0" PrivateAssets="All" />
