@@ -26,6 +26,9 @@ namespace Corwords.Web
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.AddDbContext<CorwordsDbContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
@@ -39,7 +42,7 @@ namespace Corwords.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ApplicationDbContext applicationDbContext, CorwordsDbContext corwordsDbContext)
         {
             if (env.IsDevelopment())
             {
@@ -55,6 +58,8 @@ namespace Corwords.Web
             app.UseStaticFiles();
 
             app.UseAuthentication();
+
+            DbInitializer.Initialize(applicationDbContext, corwordsDbContext);
 
             app.UseMetaWeblog("/metaweblog");
 
