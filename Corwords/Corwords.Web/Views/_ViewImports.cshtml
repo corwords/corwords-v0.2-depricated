@@ -1,6 +1,9 @@
-@using Microsoft.AspNetCore.Identity
 @using Corwords.Web
 @using Corwords.Web.Models
+@using Corwords.Web.Models.Configuration
 @using Corwords.Web.Models.AccountViewModels
 @using Corwords.Web.Models.ManageViewModels
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.Extensions.Options
+@inject IOptions<AppSettings> AppSettings;
 @addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers

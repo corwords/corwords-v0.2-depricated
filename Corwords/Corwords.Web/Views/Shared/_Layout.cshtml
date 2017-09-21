@@ -1,12 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@{ 
+    var appSettings = AppSettings.Value;
+}
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"]</title>
+    <title>@ViewData["Title"] | @appSettings.GeneralSettings.SiteName</title>
 
     <environment include="Development">
-        <link rel="stylesheet" href="~/css/corwords.css" />
+        <link rel="stylesheet" href="~/css/corwords.min.css" asp-append-version="true" />
     </environment>
     <environment exclude="Development">
         <link rel="stylesheet" href="~/css/corwords.min.css" asp-append-version="true" />
@@ -36,12 +39,12 @@
     <div class="container body-content">
         @RenderBody()
         <footer>
-            <p>&copy; 2017. Build with Corwords.</p>
+            <p>&copy; 2017 @appSettings.GeneralSettings.SiteName. Built with {love} and <a href="http://corwords.com" target="_blank">Corwords</a>. rev: @appSettings.BuildNumber</p>
         </footer>
     </div>
 
     <environment include="Development">
-        <script src="~/js/corwords.js" asp-append-version="true"></script>
+        <script src="~/js/corwords.min.js" asp-append-version="true"></script>
     </environment>
     <environment exclude="Development">
         <script src="~/js/corwords.min.js" asp-append-version="true"></script>

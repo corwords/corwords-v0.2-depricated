@@ -28,6 +28,7 @@ namespace Corwords.Web
         {
             // Add AppSettings
             services.Configure<AppSettings>(Configuration);
+            services.ConfigureWritable<GeneralSettings>(Configuration.GetSection("GeneralSettings"));
 
             // Add database contexts
             services.AddDbContext<ApplicationDbContext>(options =>
