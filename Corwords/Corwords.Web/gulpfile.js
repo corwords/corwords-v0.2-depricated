@@ -7,6 +7,7 @@ var gulp = require("gulp"),
     copy = require("gulp-copy"),
     concat = require("gulp-concat"),
     cssmin = require("gulp-cssmin"),
+    rename = require("gulp-rename"),
     sass = require("gulp-sass"),
     sourcemaps = require("gulp-sourcemaps"),
     uglify = require("gulp-uglify");
@@ -17,6 +18,7 @@ var paths = {
 };
 
 paths.assets = "./.assets/";
+paths.corwords = "./.corwords/";
 
 paths.js = paths.webroot + "js/";
 paths.css = paths.webroot + "css/";
@@ -61,9 +63,22 @@ gulp.task("copy:jquery", function () {
 
 
 // Compile the SASS
-//gulp.task('sass', function () {
-//    return gulp.src('./
-//});
+gulp.task('sass:corwords:dev', function () {
+    return gulp.src(paths.corwords + "style/corwords.scss")
+        .pipe(sourcemaps.init())
+        .pipe(sass().on('error', sass.logError))
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest(paths.webroot + 'css'));
+});
+
+gulp.task('sass:corwords:prod', function () {
+    return gulp.src(paths.corwords + "style/corwords.scss")
+        .pipe(sass({ outputStyle: 'compressed', file: 'corwords.min.css' }).on('error', sass.logError))
+        .pipe(rename({suffix: '.min'}))
+        .pipe(gulp.dest(paths.webroot + 'css'));
+});
+
+gulp.task("sass:corwords", ["sass:corwords:dev", "sass:corwords:prod"]);
 
 
 // Build the CSS and JS files
@@ -85,5 +100,7 @@ gulp.task("min:css", function () {
 // Define Roll-up Tasks
 gulp.task("clean", ["clean:js", "clean:css"]);
 gulp.task("copy", ["copy:jquery", "copy:bootstrap", "copy:fontawesome"]);
-gulp.task("min", ["min:js", "min:css"]);
-gulp.task("default", ["copy", "min"]);
+gulp.task("min", ["min:js"]);
+gulp.task("sass", ["sass:corwords"]);
+
+gulp.task("default", ["copy", "min", "sass"]);
