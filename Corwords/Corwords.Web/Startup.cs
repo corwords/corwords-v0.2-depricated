@@ -1,17 +1,16 @@
-﻿using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Hosting;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Corwords.Web.Core.Configuration;
 using Corwords.Web.Data;
 using Corwords.Web.Models;
-using Corwords.Web.Services;
-using WilderMinds.MetaWeblog;
 using Corwords.Web.Models.Configuration;
+using Corwords.Web.Services;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Routing;
-using Corwords.Web.Extensions;
-using System.Linq;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using WilderMinds.MetaWeblog;
 
 namespace Corwords.Web
 {

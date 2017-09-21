@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Options;
 
-namespace Corwords.Web.Extensions
+namespace Corwords.Web.Core.Configuration
 {
     public class FirstRunContraint : IRouteConstraint
     {
