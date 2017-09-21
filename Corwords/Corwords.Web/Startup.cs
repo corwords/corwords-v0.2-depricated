@@ -79,7 +79,7 @@ namespace Corwords.Web
         private void ConfigureRoutes(IRouteBuilder routeBuilder)
         {
             // First Run Route
-            routeBuilder.MapRoute("firstrun", "{*.}", new { controller = "Init", action = "Index" }, new { firstrun = new FirstRunContraint() });
+            routeBuilder.MapRoute("firstrun", "{*firstrun}", new { controller = "Init", action = "Index" }, new { firstrun = new FirstRunContraint() });
 
             // Base Route
             routeBuilder.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}");

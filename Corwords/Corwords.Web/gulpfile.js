@@ -7,12 +7,16 @@ var gulp = require("gulp"),
     copy = require("gulp-copy"),
     concat = require("gulp-concat"),
     cssmin = require("gulp-cssmin"),
+    sass = require("gulp-sass"),
+    sourcemaps = require("gulp-sourcemaps"),
     uglify = require("gulp-uglify");
 
 // Path array
 var paths = {
     webroot: "./wwwroot/"
 };
+
+paths.assets = "./.assets/";
 
 paths.js = paths.webroot + "js/";
 paths.css = paths.webroot + "css/";
@@ -46,29 +50,40 @@ gulp.task("copy:bootstrap", function () {
 });
 
 gulp.task("copy:fontawesome", function () {
-    return gulp.src(['./.assets/font-awesome-4.7.0/fonts/*', './.assets/font-awesome-4.7.0/css/*'])
+    return gulp.src([paths.assets + 'fontawesome/fonts/*', paths.assets + 'fontawesome/css/*'])
         .pipe(copy(paths.webroot, { prefix: 2 }));;
 });
+
+gulp.task("copy:jquery", function () {
+    return gulp.src([paths.assets + 'jquery/dist/jquery.js', paths.assets + 'jquery/dist/jquery.min.js'])
+        .pipe(copy(paths.js, { prefix: 3 }));;
+});
+
+
+// Compile the SASS
+//gulp.task('sass', function () {
+//    return gulp.src('./
+//});
 
 
 // Build the CSS and JS files
 gulp.task("min:js", function () {
     return gulp.src([paths.jsExpandedFiles, "!" + paths.jsMinFiles], { base: "." })
-        .pipe(concat(paths.jsSite))
         .pipe(uglify())
+        .pipe(concat(paths.jsSite))
         .pipe(gulp.dest("."));
 });
 
 gulp.task("min:css", function () {
     return gulp.src([paths.cssExpandedFiles, "!" + paths.cssMinFiles], { base: "." })
-        .pipe(concat(paths.cssSite))
         .pipe(cssmin())
+        .pipe(concat(paths.cssSite))
         .pipe(gulp.dest("."));
 });
 
 
 // Define Roll-up Tasks
 gulp.task("clean", ["clean:js", "clean:css"]);
-gulp.task("copy", ["copy:bootstrap", "copy:fontawesome"]);
+gulp.task("copy", ["copy:jquery", "copy:bootstrap", "copy:fontawesome"]);
 gulp.task("min", ["min:js", "min:css"]);
 gulp.task("default", ["copy", "min"]);
