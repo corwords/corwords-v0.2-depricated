@@ -1,0 +1,25 @@
+﻿@{
+    ViewData["Title"] = "Getting Started";
+}
+
+<h2>Let's Get Started</h2>
+
+<form asp-controller="Init" asp-action="Begin" method="post" class="form-horizontal">
+@* Create a username/password *@
+    <div class="form-group">
+        <label for="email">Email address:</label>
+        <input type="email" class="form-control" id="email">
+    </div>
+    <div class="form-group">
+        <label for="pwd">Password:</label>
+        <input type="password" class="form-control" id="pwd">
+    </div>
+
+
+@* Create a blog *@
+
+
+
+
+    <button type="submit" class="btn btn-default">Submit</button>
+</form> 
