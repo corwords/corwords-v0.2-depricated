@@ -12,6 +12,7 @@ var gulp = require("gulp"),
     sourcemaps = require("gulp-sourcemaps"),
     uglify = require("gulp-uglify");
 
+
 // Path array
 var paths = {
     webroot: "./wwwroot/"
@@ -32,7 +33,7 @@ paths.cssMinFiles = paths.css + "**/*.min.css";
 paths.jsSite = paths.js + "corwords.min.js";
 paths.cssSite = paths.css + "corwords.min.css";
 
-paths.npmBootstrap = "./node_modules/bootstrap-sass/assets/";
+paths.npmBootstrap = paths.assets + "bootstrap-sass/assets/";
 
 
 // Clean the CSS and JS folders
@@ -73,12 +74,30 @@ gulp.task('sass:corwords:dev', function () {
 
 gulp.task('sass:corwords:prod', function () {
     return gulp.src(paths.corwords + "style/corwords.scss")
-        .pipe(sass({ outputStyle: 'compressed', file: 'corwords.min.css' }).on('error', sass.logError))
+        .pipe(sass({ outputStyle: 'compressed' }).on('error', sass.logError))
         .pipe(rename({suffix: '.min'}))
         .pipe(gulp.dest(paths.webroot + 'css'));
 });
 
 gulp.task("sass:corwords", ["sass:corwords:dev", "sass:corwords:prod"]);
+
+gulp.task('sass:bootstrap:dev', function () {
+    return gulp.src(paths.corwords + "style/custom_bootstrap.scss")
+        .pipe(sourcemaps.init())
+        .pipe(sass({ includePaths: paths.npmBootstrap + 'stylesheets' }).on('error', sass.logError))
+        .pipe(sourcemaps.write())
+        .pipe(rename({ basename: 'bootstrap' }))
+        .pipe(gulp.dest(paths.webroot + 'css'));
+});
+
+gulp.task('sass:bootstrap:prod', function () {
+    return gulp.src(paths.corwords + "style/custom_bootstrap.scss")
+        .pipe(sass({ includePaths: paths.npmBootstrap + 'stylesheets', outputStyle: 'compressed' }).on('error', sass.logError))
+        .pipe(rename({ basename: 'bootstrap', suffix: '.min' }))
+        .pipe(gulp.dest(paths.webroot + 'css'));
+});
+
+gulp.task("sass:bootstrap", ["sass:bootstrap:dev", "sass:bootstrap:prod"]);
 
 
 // Build the CSS and JS files
@@ -101,6 +120,6 @@ gulp.task("min:css", function () {
 gulp.task("clean", ["clean:js", "clean:css"]);
 gulp.task("copy", ["copy:jquery", "copy:bootstrap", "copy:fontawesome"]);
 gulp.task("min", ["min:js"]);
-gulp.task("sass", ["sass:corwords"]);
+gulp.task("sass", ["sass:corwords", "sass:bootstrap"]);
 
 gulp.task("default", ["copy", "min", "sass"]);
