@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Corwords.Web.Core.Configuration;
 using Corwords.Web.Models.Configuration;
+using Corwords.Web.Models.CoreViewModels;
 
 namespace Corwords.Web.Controllers
 {
@@ -20,7 +21,8 @@ namespace Corwords.Web.Controllers
             //    vals.SiteName = "Corwords";
             //});
 
-            return View(_generalSettings.Value);
+            var vm = new InitViewModel(_generalSettings.Value);
+            return View(vm);
         }
     }
 }
