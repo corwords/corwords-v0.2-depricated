@@ -14,14 +14,22 @@ namespace Corwords.Web.Controllers
             _generalSettings = generalSettings;
         }
 
-        public IActionResult Index()
+        public IActionResult Begin(InitViewModel vm)
         {
-            //_generalSettings.Update(vals =>
-            //{
-            //    vals.SiteName = "Corwords";
-            //});
+            if (vm.IsValid())
+            {
+                //_generalSettings.Update(vals =>
+                //{
+                //    vals.SiteName = "Corwords";
+                //});
 
-            var vm = new InitViewModel(_generalSettings.Value);
+                // Request came in from a post so let's save and move on.
+                //return Content("Congrats!");
+            }
+
+            var currentUrl = Request.Scheme + "://" + Request.Host;
+            vm.ResolveNulls(_generalSettings.Value, currentUrl);
+
             return View(vm);
         }
     }

@@ -1,0 +1,104 @@
+﻿@model Corwords.Web.Models.CoreViewModels.InitViewModel
+@{
+    ViewData["Title"] = "Getting Started";
+    Layout = "_LayoutBare";
+}
+<h2>Let's Get Started</h2>
+
+<form asp-controller="Init" asp-action="Begin" method="post" class="form-horizontal">
+    <p>
+        Enter your first name and last name.
+    </p>
+    <div class="form-row">
+        @* Create a username/password *@
+        <div class="col-sm-6">
+            <label asp-for="FirstName" class="sr-only">First Name:</label>
+            <input type="text" class="form-control mb-2 mb-sm-0" placeholder="First Name" asp-for="FirstName" />
+        </div>
+        <div class="col-sm-6">
+            <label asp-for="LastName" class="sr-only">Last Name:</label>
+            <input type="text" class="form-control mb-2 mb-sm-0" placeholder="Last Name" asp-for="LastName" />
+        </div>
+    </div><br/><br /><br />
+    <p>
+        Enter your email address, to be used as your login, and your password.
+    </p>
+    <div class="form-row">
+        <div class="col-sm-6">
+            <label asp-for="EmailAddress" class="sr-only">Email Address:</label>
+            <input type="email" class="form-control mb-2 mb-sm-0" placeholder="Email Address" asp-for="EmailAddress" />
+        </div>
+        <div class="col-sm-6">
+            <label asp-for="Password" class="sr-only">Password:</label>
+            <input type="password" class="form-control mb-2 mb-sm-0" placeholder="Password" asp-for="Password" />
+        </div>
+    </div><br /><br />
+
+    <hr />
+
+    @* Create a blog *@
+    <p>
+        Now, enter your website address, site name, and choose a base theme.
+    </p>
+    <div class="form-row">
+        <div class="col-sm-12">
+            <label asp-for="WebsiteUrl" class="sr-only">Website URL:</label>
+            <input type="text" class="form-control" placeholder="Website URL" asp-for="WebsiteUrl" />
+        </div>
+    </div><br /><br /><br />
+    <div class="form-row">
+        <div class="col-sm-6">
+            <label asp-for="SiteName" class="sr-only">Site Name:</label>
+            <input type="text" class="form-control" placeholder="Site Name" asp-for="SiteName" />
+        </div>
+        <div class="col-sm-6">
+            <label asp-for="SiteTheme" class="sr-only">Theme:</label>
+            <select id="sitetheme" class="form-control" asp-for="SiteTheme" asp-items="@(new SelectList(Model.Themes.Select(x => new KeyValuePair<string,string>(x,x)),"Key","Value",Model.GeneralSettings.SiteTheme))"></select>
+        </div>
+    </div><br/><br/>
+
+        <hr />
+
+    <p>
+        Finally, enter your blog name and url.
+    </p>
+    <div class="form-row">
+        <div class="col-sm-6">
+            <label asp-for="BlogName" class="sr-only">Blog Name:</label>
+            <input type="text" class="form-control" placeholder="Blog Name" asp-for="BlogName" />
+        </div>
+        <div class="col-sm-6">
+            <label asp-for="BlogUrl" class="sr-only">Blog Url:</label>
+            <div class="input-group">
+                <div class="input-group-addon"><span id="webUrl">@Model.WebsiteUrl/</span></div>
+                <input type="text" class="form-control" placeholder="Blog URL" asp-for="BlogUrl" />
+            </div>
+        </div>
+    </div><br/><br/><br/>
+
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $('#sitetheme').change(function () {
+                changeTheme($(':selected').val());
+            });
+
+            $('#WebsiteUrl').change(function () {
+                var url = $('#WebsiteUrl').val();
+                if (!url.endsWith('/')) {
+                    url += '/';
+                }
+
+                $('#webUrl').text(url);
+            })
+        });
+
+        function changeTheme(theme) {
+            var sheet = $('[title="site_theme"]');
+            sheet.attr('href', '/css/bootswatch.' + theme.toLowerCase() + '.min.css');
+        }
+    </script>
+}
