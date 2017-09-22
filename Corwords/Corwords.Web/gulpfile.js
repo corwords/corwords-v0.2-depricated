@@ -4,6 +4,8 @@
 // Requires
 var gulp = require("gulp"),
     rimraf = require("rimraf"),
+    fs = require("fs"),
+    path = require("path"),
     copy = require("gulp-copy"),
     concat = require("gulp-concat"),
     cssmin = require("gulp-cssmin"),
@@ -34,6 +36,16 @@ paths.jsSite = paths.js + "corwords.min.js";
 paths.cssSite = paths.css + "corwords.min.css";
 
 paths.npmBootstrap = paths.assets + "bootstrap-sass/assets/";
+paths.npmBootswatch = paths.assets + "bootswatch/";
+
+
+// Functions
+function getFolders(dir) {
+    return fs.readdirSync(dir)
+        .filter(function (file) {
+            return fs.statSync(path.join(dir, file)).isDirectory();
+        });
+}
 
 
 // Clean the CSS and JS folders
@@ -99,6 +111,36 @@ gulp.task('sass:bootstrap:prod', function () {
 
 gulp.task("sass:bootstrap", ["sass:bootstrap:dev", "sass:bootstrap:prod"]);
 
+gulp.task('sass:bootswatch:dev', function () {
+    var bootswatchFiles = getFolders(paths.npmBootswatch);
+
+    var tasks = bootswatchFiles.map(function (folder) {
+        return gulp.src([path.join(paths.npmBootswatch, folder, '/*.scss'), paths.corwords + "style/custom_bootstrap.scss"])
+            .pipe(sass({ includePaths: paths.npmBootstrap + 'stylesheets', outputStyle: 'compressed' }).on('error', sass.logError))
+            .pipe(rename({ basename: 'bootswatch.' + folder, suffix: '.min' }))
+            .pipe(gulp.dest(paths.webroot + 'css'));
+    });
+
+    return tasks;
+});
+
+gulp.task('sass:bootswatch:prod', function () {
+    var bootswatchFiles = getFolders(paths.npmBootswatch);
+
+    var tasks = bootswatchFiles.map(function (folder) {
+        return gulp.src([path.join(paths.npmBootswatch, folder, '/*.scss'), paths.corwords + "style/custom_bootstrap.scss"])
+            .pipe(sourcemaps.init())
+            .pipe(sass({ includePaths: paths.npmBootstrap + 'stylesheets' }).on('error', sass.logError))
+            .pipe(rename({ basename: 'bootswatch.' + folder }))
+            .pipe(sourcemaps.write())
+            .pipe(gulp.dest(paths.webroot + 'css'));
+    });
+
+    return tasks;
+});
+
+gulp.task("sass:bootswatch", ["sass:bootswatch:dev", "sass:bootswatch:prod"]);
+
 
 // Build the CSS and JS files
 gulp.task("min:js", function () {
@@ -120,6 +162,6 @@ gulp.task("min:css", function () {
 gulp.task("clean", ["clean:js", "clean:css"]);
 gulp.task("copy", ["copy:jquery", "copy:bootstrap", "copy:fontawesome"]);
 gulp.task("min", ["min:js"]);
-gulp.task("sass", ["sass:corwords", "sass:bootstrap"]);
+gulp.task("sass", ["sass:corwords", "sass:bootstrap", "sass:bootswatch"]);
 
 gulp.task("default", ["copy", "min", "sass"]);
