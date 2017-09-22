@@ -1,6 +1,7 @@
 ﻿using Corwords.Web.Core.Integration;
 using Corwords.Web.Models.Configuration;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace Corwords.Web.Models.CoreViewModels
 {
@@ -9,14 +10,23 @@ namespace Corwords.Web.Models.CoreViewModels
         public GeneralSettings GeneralSettings { get; set; }
         public List<string> Themes { get; set; }
 
+        [Required, MaxLength(20)]
         public string FirstName { get; set; }
+        [Required, MaxLength(20)]
         public string LastName { get; set; }
+        [Required, EmailAddress, MaxLength(255)]
         public string EmailAddress { get; set; }
+        [Required, MinLength(6)]
         public string Password { get; set; }
+        [Required, Url]
         public string WebsiteUrl { get; set; }
+        [Required, MaxLength(100)]
         public string SiteName { get; set; }
+        [Required]
         public string SiteTheme { get; set; }
+        [Required, MaxLength(255)]
         public string BlogName { get; set; }
+        [Required, MinLength(2)]
         public string BlogUrl { get; set; }
 
         public InitViewModel()
