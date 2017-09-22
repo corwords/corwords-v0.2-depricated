@@ -24,6 +24,7 @@
 
   <ItemGroup>
     <None Include=".assets\assets.md" />
+    <None Include=".corwords\style\custom_bootswatch.scss" />
     <None Include=".corwords\style\custom_bootstrap.scss" />
     <None Include=".corwords\style\corwords.scss" />
   </ItemGroup>

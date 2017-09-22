@@ -111,12 +111,15 @@ gulp.task('sass:bootstrap:prod', function () {
 
 gulp.task("sass:bootstrap", ["sass:bootstrap:dev", "sass:bootstrap:prod"]);
 
-gulp.task('sass:bootswatch:dev', function () {
+gulp.task('sass:bootswatch:prod', function () {
     var bootswatchFiles = getFolders(paths.npmBootswatch);
 
     var tasks = bootswatchFiles.map(function (folder) {
-        return gulp.src([paths.corwords + "style/custom_bootstrap.scss"], path.join(paths.npmBootswatch, folder, '/*.scss'))
-            .pipe(sass({ includePaths: paths.npmBootstrap + 'stylesheets', outputStyle: 'compressed' }).on('error', sass.logError))
+        if (folder == "fonts")
+            return;
+
+        return gulp.src(paths.corwords + "style/custom_bootswatch.scss")
+            .pipe(sass({ includePaths: [paths.npmBootstrap + 'stylesheets', paths.npmBootswatch + folder], outputStyle: 'compressed' }).on('error', sass.logError))
             .pipe(rename({ basename: 'bootswatch.' + folder, suffix: '.min' }))
             .pipe(gulp.dest(paths.webroot + 'css'));
     });
@@ -124,13 +127,16 @@ gulp.task('sass:bootswatch:dev', function () {
     return tasks;
 });
 
-gulp.task('sass:bootswatch:prod', function () {
+gulp.task('sass:bootswatch:dev', function () {
     var bootswatchFiles = getFolders(paths.npmBootswatch);
 
     var tasks = bootswatchFiles.map(function (folder) {
-        return gulp.src([path.join(paths.npmBootswatch, folder, '/*.scss'), paths.corwords + "style/custom_bootstrap.scss"])
+        if (folder == "fonts")
+            return;
+
+        return gulp.src(paths.corwords + "style/custom_bootswatch.scss")
             .pipe(sourcemaps.init())
-            .pipe(sass({ includePaths: paths.npmBootstrap + 'stylesheets' }).on('error', sass.logError))
+            .pipe(sass({ includePaths: [paths.npmBootstrap + 'stylesheets', paths.npmBootswatch + folder] }).on('error', sass.logError))
             .pipe(rename({ basename: 'bootswatch.' + folder }))
             .pipe(sourcemaps.write())
             .pipe(gulp.dest(paths.webroot + 'css'));
