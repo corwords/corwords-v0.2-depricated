@@ -15,10 +15,10 @@ namespace Corwords.Web.Controllers
 
         public IActionResult Index()
         {
-            _generalSettings.Update(vals =>
-            {
-                vals.SiteName = "Corwords";
-            });
+            //_generalSettings.Update(vals =>
+            //{
+            //    vals.SiteName = "Corwords";
+            //});
 
             return View(_generalSettings.Value);
         }

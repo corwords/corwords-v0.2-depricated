@@ -8,18 +8,45 @@
 @* Create a username/password *@
     <div class="form-group">
         <label for="email">Email address:</label>
-        <input type="email" class="form-control" id="email">
+        <input type="email" class="form-control" id="email" />
     </div>
     <div class="form-group">
-        <label for="pwd">Password:</label>
-        <input type="password" class="form-control" id="pwd">
+        <label for="password">Password:</label>
+        <input type="password" class="form-control" id="password" />
     </div>
 
-    <h4>@Model.SiteName</h4>
-@* Create a blog *@
 
+@* Create a blog *@
+    <div class="form-group">
+        <label for="sitename">Site Name:</label>
+        <input type="text" class="form-control" id="sitename" />
+    </div>
+    <div class="form-group">
+        <label for="sitetheme">Theme:</label>
+        <select id="sitetheme" class="form-control">
+            <option value="darkly">Darkly</option>
+            <option value="readable">Readable</option>
+            <option value="cerulean">Cerulean</option>
+        </select>
+    </div>
 
 
 
     <button type="submit" class="btn btn-default">Submit</button>
 </form> 
+
+@section Scripts {
+<script>
+    $(function () {
+        $('#sitetheme').change(function () {
+            changeTheme($(':selected').val());
+        });
+    });
+
+    function changeTheme(theme) {
+        var sheet = $('[title="site_theme"]');
+        sheet.attr('href', '/css/bootswatch.' + theme.toLowerCase() + '.min.css');
+        //alert(sheet.attr('href'));
+    }
+</script>
+}
