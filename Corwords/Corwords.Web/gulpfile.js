@@ -26,14 +26,8 @@ paths.corwords = "./.corwords/";
 paths.js = paths.webroot + "js/";
 paths.css = paths.webroot + "css/";
 
-paths.jsExpandedFiles = paths.js + "**/*.js";
-paths.cssExpandedFiles = paths.css + "**/*.css";
-
-paths.jsMinFiles = paths.js + "**/*.min.js";
-paths.cssMinFiles = paths.css + "**/*.min.css";
-
-paths.jsSite = paths.js + "corwords.min.js";
-paths.cssSite = paths.css + "corwords.min.css";
+paths.jsSite = paths.js + "corwords.js";
+paths.cssSite = paths.css + "corwords.css";
 
 paths.npmBootstrap = paths.assets + "bootstrap-sass/assets/";
 paths.npmBootswatch = paths.assets + "bootswatch/";
@@ -61,17 +55,23 @@ gulp.task("clean:js", function (cb) {
 // Copy files
 gulp.task("copy:bootstrap", function () {
     return gulp.src([paths.npmBootstrap + 'javascripts/bootstrap.js', paths.npmBootstrap + 'javascripts/bootstrap.min.js'])
-        .pipe(copy(paths.js, { prefix: 4 }));;
+        .pipe(copy(paths.js, { prefix: 4 }));
+});
+
+gulp.task("copy:corwords", function () {
+    return gulp.src([paths.corwords + 'scripts/*.js'])
+        .pipe(concat(paths.jsSite))
+        .pipe(gulp.dest('.'));
 });
 
 gulp.task("copy:fontawesome", function () {
     return gulp.src([paths.assets + 'fontawesome/fonts/*', paths.assets + 'fontawesome/css/*'])
-        .pipe(copy(paths.webroot, { prefix: 2 }));;
+        .pipe(copy(paths.webroot, { prefix: 2 }));
 });
 
 gulp.task("copy:jquery", function () {
     return gulp.src([paths.assets + 'jquery/dist/jquery.js', paths.assets + 'jquery/dist/jquery.min.js'])
-        .pipe(copy(paths.js, { prefix: 3 }));;
+        .pipe(copy(paths.js, { prefix: 3 }));
 });
 
 
@@ -149,25 +149,18 @@ gulp.task("sass:bootswatch", ["sass:bootswatch:dev", "sass:bootswatch:prod"]);
 
 
 // Build the CSS and JS files
-gulp.task("min:js", function () {
-    return gulp.src([paths.jsExpandedFiles, "!" + paths.jsMinFiles], { base: "." })
+gulp.task("min:corwords:js", function () {
+    return gulp.src(paths.jsSite)
         .pipe(uglify())
-        .pipe(concat(paths.jsSite))
-        .pipe(gulp.dest("."));
-});
-
-gulp.task("min:css", function () {
-    return gulp.src([paths.cssExpandedFiles, "!" + paths.cssMinFiles], { base: "." })
-        .pipe(cssmin())
-        .pipe(concat(paths.cssSite))
-        .pipe(gulp.dest("."));
+        .pipe(rename({ basename: 'corwords', suffix: '.min' }))
+        .pipe(gulp.dest(paths.js));
 });
 
 
 // Define Roll-up Tasks
 gulp.task("clean", ["clean:js", "clean:css"]);
 gulp.task("copy", ["copy:jquery", "copy:bootstrap", "copy:fontawesome"]);
-gulp.task("min", ["min:js"]);
+gulp.task("min", ["min:corwords:js"]);
 gulp.task("sass", ["sass:corwords", "sass:bootstrap", "sass:bootswatch"]);
 
 gulp.task("default", ["copy", "min", "sass"]);
