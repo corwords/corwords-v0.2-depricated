@@ -44,11 +44,12 @@ function getFolders(dir) {
 
 // Clean the CSS and JS folders
 gulp.task("clean:css", function (cb) {
-    rimraf(paths.cssSite, cb);
+    rimraf(paths.css + "**/*.css", cb);
+    rimraf(paths.css + "**/*.css.map", cb);
 });
 
 gulp.task("clean:js", function (cb) {
-    rimraf(paths.jsSite, cb);
+    rimraf(paths.js + "**/*.js", cb);
 });
 
 
@@ -159,8 +160,8 @@ gulp.task("min:corwords:js", function () {
 
 // Define Roll-up Tasks
 gulp.task("clean", ["clean:js", "clean:css"]);
-gulp.task("copy", ["copy:jquery", "copy:bootstrap", "copy:fontawesome"]);
 gulp.task("min", ["min:corwords:js"]);
+gulp.task("copy", ["copy:corwords", "copy:jquery", "copy:bootstrap", "copy:fontawesome", "min"]);
 gulp.task("sass", ["sass:corwords", "sass:bootstrap", "sass:bootswatch"]);
 
-gulp.task("default", ["copy", "min", "sass"]);
+gulp.task("default", ["copy", "sass"]);
