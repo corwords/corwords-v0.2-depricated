@@ -115,7 +115,7 @@ gulp.task('sass:bootswatch:dev', function () {
     var bootswatchFiles = getFolders(paths.npmBootswatch);
 
     var tasks = bootswatchFiles.map(function (folder) {
-        return gulp.src([path.join(paths.npmBootswatch, folder, '/*.scss'), paths.corwords + "style/custom_bootstrap.scss"])
+        return gulp.src([paths.corwords + "style/custom_bootstrap.scss"], path.join(paths.npmBootswatch, folder, '/*.scss'))
             .pipe(sass({ includePaths: paths.npmBootstrap + 'stylesheets', outputStyle: 'compressed' }).on('error', sass.logError))
             .pipe(rename({ basename: 'bootswatch.' + folder, suffix: '.min' }))
             .pipe(gulp.dest(paths.webroot + 'css'));
