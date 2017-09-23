@@ -1,4 +1,5 @@
 ﻿using Corwords.Web.Core.Integration;
+using Corwords.Web.Extensions;
 using Corwords.Web.Models.Configuration;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -16,7 +17,7 @@ namespace Corwords.Web.Models.CoreViewModels
         public string LastName { get; set; }
         [Required, EmailAddress, MaxLength(255)]
         public string EmailAddress { get; set; }
-        [Required, MinLength(6)]
+        [Required, Password]
         public string Password { get; set; }
         [Required, Url]
         public string WebsiteUrl { get; set; }
