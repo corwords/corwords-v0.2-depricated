@@ -18,10 +18,17 @@ namespace Corwords.Web.Controllers
         {
             if (vm.IsValid())
             {
+                // Save User
+
+                // Save site settings (and reset the FirstRun option)
                 //_generalSettings.Update(vals =>
                 //{
                 //    vals.SiteName = "Corwords";
                 //});
+
+                // Save other settings
+
+                // Redirect to homepage
 
                 // Request came in from a post so let's save and move on.
                 //return Content("Congrats!");
