@@ -9,8 +9,8 @@ namespace Corwords.Web.Core.Configuration
     {
         public bool Match(HttpContext httpContext, IRouter route, string routeKey, RouteValueDictionary values, RouteDirection routeDirection)
         {
-            var options = httpContext.RequestServices.GetService(typeof(IOptions<AppSettings>));
-            return (options as IOptions<AppSettings>).Value.FirstRun;
+            var options = httpContext.RequestServices.GetService(typeof(IOptions<GeneralSettings>));
+            return (options as IOptions<GeneralSettings>).Value.FirstRun;
         }
     }
 }
