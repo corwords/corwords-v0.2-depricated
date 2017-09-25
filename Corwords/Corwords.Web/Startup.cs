@@ -38,7 +38,7 @@ namespace Corwords.Web
                 options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
             // Add Identity
-            services.AddIdentity<ApplicationUser, IdentityRole>()
+            services.AddIdentity<ApplicationUser, ApplicationRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>()
                 .AddDefaultTokenProviders();
 
