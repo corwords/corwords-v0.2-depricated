@@ -7,6 +7,10 @@ namespace Corwords.Web.Extensions
     {
         public override bool IsValid(object value)
         {
+            // If value is null or empty, return true as required should be used in the view model
+            if (value == null || string.IsNullOrEmpty(value.ToString()))
+                return true;
+
             var password = value.ToString();
 
             // Minimum length of 6
