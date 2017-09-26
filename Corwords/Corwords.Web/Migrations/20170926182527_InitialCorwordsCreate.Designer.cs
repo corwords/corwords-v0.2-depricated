@@ -11,8 +11,8 @@ using System;
 namespace Corwords.Web.Migrations
 {
     [DbContext(typeof(CorwordsDbContext))]
-    [Migration("20170919205518_InitialCreate_CorwordsDB")]
-    partial class InitialCreate_CorwordsDB
+    [Migration("20170926182527_InitialCorwordsCreate")]
+    partial class InitialCorwordsCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {

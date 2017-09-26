@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace Corwords.Web.Migrations
 {
-    public partial class InitialCreate_CorwordsDB : Migration
+    public partial class InitialCorwordsCreate : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.15
+VisualStudioVersion = 15.0.26730.16
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Corwords", "Corwords\Corwords.csproj", "{1E1A71B4-FFAB-41B0-AB36-94AEE0416942}"
 EndProject
@@ -11,7 +11,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WilderMinds.MetaWeblog", "W
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WilderMinds.MetaWeblog.Tests", "WilderMinds.MetaWeblog.Tests\WilderMinds.MetaWeblog.Tests.csproj", "{57D1914F-A4D0-40D3-A5BC-222AC4EDCA24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Corwords.Web", "Corwords.Web\Corwords.Web.csproj", "{D9D29F58-1F17-42A9-86C2-69C196CE5470}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Corwords.Web", "Corwords.Web\Corwords.Web.csproj", "{D9D29F58-1F17-42A9-86C2-69C196CE5470}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "misc", "misc", "{A98D7CBD-7B68-4DCC-AF30-4EFA8E60B8E4}"
+	ProjectSection(SolutionItems) = preProject
+		ef-commands.md = ef-commands.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
