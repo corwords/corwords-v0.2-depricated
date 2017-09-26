@@ -40,7 +40,7 @@ namespace Corwords.Web.Extensions
                     repeatCount++;
                 else
                     repeatCount = 0;
-                if (repeatCount == 2)
+                if (repeatCount == 3)
                     return false;
                 lastChar = c;
             }
