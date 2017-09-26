@@ -1,6 +1,7 @@
 ﻿using Corwords.Web.Data;
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.Extensions.Configuration;
 
 namespace Corwords.Web
 {
@@ -13,6 +14,10 @@ namespace Corwords.Web
 
         public static IWebHost BuildWebHost(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
+                .ConfigureAppConfiguration((hostingContext, config) =>
+                {
+                    config.AddJsonFile("corwords-settings.json", optional: false, reloadOnChange: true);
+                })
                 .UseStartup<Startup>()
                 .Build();
     }

@@ -1,20 +1,21 @@
-﻿@{ 
+﻿@{
     var appSettings = AppSettings.Value;
+    var generalSettings = GeneralSettings.Value;
 }
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] | @appSettings.GeneralSettings.SiteName</title>
+    <title>@ViewData["Title"] | @generalSettings.SiteName</title>
 
     <environment include="Development">
-        <link rel="stylesheet" href="~/css/bootswatch.@(appSettings.GeneralSettings.SiteTheme + ".css")" asp-append-version="true" title="site_theme" />
+        <link rel="stylesheet" href="~/css/bootswatch.@(generalSettings.SiteTheme + ".css")" asp-append-version="true" title="site_theme" />
         <link rel="stylesheet" href="~/css/corwords.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/font-awesome.css" asp-append-version="true" />
     </environment>
     <environment exclude="Development">
-        <link rel="stylesheet" href="~/css/bootswatch.@(appSettings.GeneralSettings.SiteTheme + ".min.css")" asp-append-version="true" title="site_theme" />
+        <link rel="stylesheet" href="~/css/bootswatch.@(generalSettings.SiteTheme + ".min.css")" asp-append-version="true" title="site_theme" />
         <link rel="stylesheet" href="~/css/corwords.min.css" asp-append-version="true" />
         <link rel="stylesheet" href="~/css/font-awesome.min.css" asp-append-version="true" />
     </environment>
@@ -43,7 +44,7 @@
     <div class="container body-content">
         @RenderBody()
         <footer>
-            <p>&copy; 2017 @appSettings.GeneralSettings.SiteName. Built with <i class="fa fa-heart-o"></i> and <a href="http://corwords.com" target="_blank">Corwords</a>. rev: @appSettings.BuildNumber</p>
+            <p>&copy; 2017 @generalSettings.SiteName. Built with <i class="fa fa-heart-o"></i> and <a href="http://corwords.com" target="_blank">Corwords</a>. rev: @appSettings.BuildNumber</p>
         </footer>
     </div>
 

@@ -3,6 +3,5 @@
     public class AppSettings
     {
         public string BuildNumber { get; set; }
-        public GeneralSettings GeneralSettings { get; set; }
     }
 }
