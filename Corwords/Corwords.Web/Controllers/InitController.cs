@@ -44,8 +44,7 @@ namespace Corwords.Web.Controllers
                 // Next, add a default role called Administrators
                 if (ModelState.ErrorCount == 0)
                 {
-                    var role = new ApplicationRole { Name = roleName, NormalizedName = roleName };
-                    var roleResult = await _roleManager.CreateAsync(role);
+                    var roleResult = await _roleManager.CreateAsync(new ApplicationRole { Name = roleName });
                     if (!roleResult.Succeeded)
                         ModelState.AddModelError("EmailAddress", roleResult.Errors.First().Description);
                 }
