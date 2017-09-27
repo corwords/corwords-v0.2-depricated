@@ -1,8 +1,8 @@
 {
   "GeneralSettings": {
-    "FirstRun": false,
+    "FirstRun": true,
     "WebsiteUrl": "",
-    "SiteName": "JasonGaylord.com",
+    "SiteName": "Corwords",
     "SiteTheme": "readable"
   }
 }
