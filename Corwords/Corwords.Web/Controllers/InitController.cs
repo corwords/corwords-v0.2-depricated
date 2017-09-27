@@ -44,7 +44,7 @@ namespace Corwords.Web.Controllers
             {
                 // Add the blog
                 var blogManager = new BlogManager(_corwordsDbContext);
-                var blog = await blogManager.CreateBlogAsync(vm.BlogName, vm.BlogUrl);
+                var blog = await blogManager.CreateBlogAsync(vm.BlogName, vm.BlogUrl, vm.EmailAddress);
                 if (blog.State != EntityState.Added)
                     ModelState.AddModelError("BlogName", "The blog was not saved.");
 
@@ -88,6 +88,9 @@ namespace Corwords.Web.Controllers
                     // Redirect to home page
                     vm.IsSaved = true;
                     return View(vm);
+                } else
+                {
+                    /// TODO We need to clean-up the saved data per Issue #2 - https://github.com/corwords/corwords/issues/2
                 }
             }
 

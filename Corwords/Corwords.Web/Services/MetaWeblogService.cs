@@ -1,5 +1,7 @@
 ﻿using Corwords.Web.Models;
+using Corwords.Web.Models.Configuration;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using System;
 using WilderMinds.MetaWeblog;
 
@@ -9,13 +11,16 @@ namespace Corwords.Web.Services
     {
         private readonly SignInManager<ApplicationUser> _signInManager;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IOptionsSnapshot<GeneralSettings> _generalSettings;
 
         public CorMetaWeblogService(
             SignInManager<ApplicationUser> signInManager,
-            UserManager<ApplicationUser> userManager)
+            UserManager<ApplicationUser> userManager,
+            IOptionsSnapshot<GeneralSettings> generalSettings)
         {
             _signInManager = signInManager;
             _userManager = userManager;
+            _generalSettings = generalSettings;
         }
 
         public UserInfo GetUserInfo(string key, string username, string password)
@@ -29,13 +34,13 @@ namespace Corwords.Web.Services
             var appUser = mgr.Result;
 
             return new UserInfo()
-                        {
-                            email = appUser.Email,
-                            firstname = appUser.FirstName,
-                            lastname = appUser.LastName,
-                            nickname = appUser.FirstName,
-                            url = ""
-                        };
+            {
+                email = appUser.Email,
+                firstname = appUser.FirstName,
+                lastname = appUser.LastName,
+                nickname = appUser.FirstName,
+                url = _generalSettings.Value.WebsiteUrl
+            };
         }
 
         public BlogInfo[] GetUsersBlogs(string key, string username, string password)
