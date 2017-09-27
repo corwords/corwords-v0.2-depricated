@@ -44,9 +44,7 @@ namespace Corwords.Web.Controllers
             {
                 // Add the blog
                 var blogManager = new BlogManager(_corwordsDbContext);
-                var blog = await blogManager.CreateBlogAsync(vm.BlogName, vm.BlogUrl, vm.EmailAddress);
-                if (blog.State != EntityState.Added)
-                    ModelState.AddModelError("BlogName", "The blog was not saved.");
+                blogManager.CreateBlog(vm.BlogName, vm.BlogUrl, vm.EmailAddress);
 
                 // Next, add a default role called Administrators
                 if (ModelState.ErrorCount == 0)

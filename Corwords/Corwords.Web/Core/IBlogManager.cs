@@ -6,6 +6,6 @@ namespace Corwords.Web.Core
 {
     public interface IBlogManager
     {
-        Task<EntityEntry<Blog>> CreateBlogAsync(string name, string url, string username);
+        void CreateBlog(string name, string url, string username);
     }
 }

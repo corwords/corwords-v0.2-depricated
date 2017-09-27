@@ -14,9 +14,10 @@ namespace Corwords.Web.Core
             _corwordsDbContext = corwordsDbContext;
         }
 
-        public Task<EntityEntry<Blog>> CreateBlogAsync(string name, string url, string username)
+        public void CreateBlog(string name, string url, string username)
         {
-            return _corwordsDbContext.Blogs.AddAsync(new Blog { Name = name, BaseUrl = url, Username = username });
+            _corwordsDbContext.Blogs.Add(new Blog { Name = name, BaseUrl = url, Username = username });
+            _corwordsDbContext.SaveChanges();
         }
     }
 }
