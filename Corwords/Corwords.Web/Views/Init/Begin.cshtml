@@ -3,6 +3,8 @@
     ViewData["Title"] = "Getting Started";
     Layout = "_LayoutBare";
 }
+
+@if (Model.IsSaved == false) { 
 <h2>Let's Get Started</h2>
 
 <form asp-controller="Init" asp-action="Begin" method="post" class="form-horizontal">
@@ -76,8 +78,19 @@
         </div>
     </div><br/><br/><br/>
 
-    <button type="submit" class="btn btn-default">Submit</button>
+    <button type="submit" class="btn btn-default">Configure Corwords</button>
 </form>
+}
+else
+{
+<h2>Success!</h2>
+<p>
+    You've successfully setup Corwords. Click the button below to go to your new home page.
+</p>
+<p>
+    @Html.ActionLink("Check out my site", "Index", "Home", null, new { @class = "btn btn-default" }) 
+</p>
+}
 
 @section Scripts {
     <script>

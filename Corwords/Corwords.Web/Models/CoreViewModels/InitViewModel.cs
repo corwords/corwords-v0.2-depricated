@@ -30,6 +30,8 @@ namespace Corwords.Web.Models.CoreViewModels
         [Required, MinLength(2)]
         public string BlogUrl { get; set; }
 
+        public bool IsSaved { get; set; }
+
         public InitViewModel()
         {
             var GeneralSettings = new GeneralSettings();
@@ -50,6 +52,7 @@ namespace Corwords.Web.Models.CoreViewModels
             SiteName = SiteName ?? generalSettings.SiteName;
             BlogName = BlogName ?? "Blog";
             BlogUrl = BlogUrl ?? "blog";
+            IsSaved = false;
         }
     }
 }

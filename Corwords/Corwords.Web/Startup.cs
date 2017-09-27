@@ -88,6 +88,7 @@ namespace Corwords.Web
         private void ConfigureRoutes(IRouteBuilder routeBuilder)
         {
             // First Run Route
+            // Removed as we cannot currently remove routes without recycling the app.
             routeBuilder.MapRoute("firstrun", "{*firstrun}", new { controller = "Init", action = "Begin" }, new { firstrun = new FirstRunContraint() });
 
             // Base Route

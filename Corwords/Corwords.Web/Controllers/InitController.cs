@@ -1,5 +1,6 @@
 ﻿using Corwords.Web.Core;
 using Corwords.Web.Core.Configuration;
+using Corwords.Web.Core.MVC;
 using Corwords.Web.Data;
 using Corwords.Web.Models;
 using Corwords.Web.Models.Configuration;
@@ -12,6 +13,7 @@ using System.Threading.Tasks;
 
 namespace Corwords.Web.Controllers
 {
+    [IsAppFirstRun]
     public class InitController : Controller
     {
         private readonly UserManager<ApplicationUser> _userManager;
@@ -29,6 +31,11 @@ namespace Corwords.Web.Controllers
             _roleManager = roleManager;
             _generalSettings = generalSettings;
             _corwordsDbContext = corwordsDbContext;
+        }
+
+        public IActionResult Success()
+        {
+            return View();
         }
 
         public async Task<IActionResult> Begin(InitViewModel vm)
@@ -73,12 +80,14 @@ namespace Corwords.Web.Controllers
                     _generalSettings.Update(vals =>
                     {
                         vals.FirstRun = false;
+                        vals.WebsiteUrl = vm.WebsiteUrl;
                         vals.SiteName = vm.SiteName;
                         vals.SiteTheme = vm.SiteTheme;
                     });
 
                     // Redirect to home page
-                    return RedirectToAction("Index", "Home");
+                    vm.IsSaved = true;
+                    return View(vm);
                 }
             }
 
