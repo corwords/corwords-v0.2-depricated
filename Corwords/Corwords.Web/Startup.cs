@@ -80,6 +80,8 @@ namespace Corwords.Web
 
             DbInitializer.Initialize(applicationDbContext, corwordsDbContext);
 
+            app.UseETagger();
+
             app.UseMetaWeblog("/metaweblog");
 
             app.UseMvc(ConfigureRoutes);
