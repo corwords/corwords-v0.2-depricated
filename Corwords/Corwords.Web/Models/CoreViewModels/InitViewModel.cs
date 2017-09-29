@@ -1,5 +1,5 @@
 ﻿using Corwords.Web.Core.Integration;
-using Corwords.Web.Extensions;
+using Corwords.Web.Core.Extensions;
 using Corwords.Web.Models.Configuration;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;

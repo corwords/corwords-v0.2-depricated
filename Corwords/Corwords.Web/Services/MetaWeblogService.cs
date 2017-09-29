@@ -29,7 +29,7 @@ namespace Corwords.Web.Services
             _signInManager = signInManager;
             _userManager = userManager;
             _generalSettings = generalSettings;
-            _blogManager = new BlogManager(corwordsDbContext);
+            _blogManager = new BlogManager(corwordsDbContext, generalSettings.Value);
         }
 
         public UserInfo GetUserInfo(string key, string username, string password)
@@ -65,14 +65,21 @@ namespace Corwords.Web.Services
 
         public Post[] GetRecentPosts(string blogid, string username, string password, int numberOfPosts)
         {
-            LoginCheck(username, password);
+            if (!int.TryParse(blogid, out int bId))
+                throw new ArgumentException(blogIdExceptionmessage);
+
+            LoginCheck(username, password, bId);
             throw new NotImplementedException();
         }
 
         // Returns the post ID
         public string AddPost(string blogid, string username, string password, Post post, bool publish)
         {
-            LoginCheck(username, password);
+            if (!int.TryParse(blogid, out int bId))
+                throw new ArgumentException(blogIdExceptionmessage);
+
+            LoginCheck(username, password, bId);
+
             throw new NotImplementedException();
         }
 
@@ -99,7 +106,10 @@ namespace Corwords.Web.Services
 
         public MediaObjectInfo NewMediaObject(string blogid, string username, string password, MediaObject mediaObject)
         {
-            LoginCheck(username, password);
+            if (!int.TryParse(blogid, out int bId))
+                throw new ArgumentException(blogIdExceptionmessage);
+
+            LoginCheck(username, password, bId);
             throw new NotImplementedException();
         }
 

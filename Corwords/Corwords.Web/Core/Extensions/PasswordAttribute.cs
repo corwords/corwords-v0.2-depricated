@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
-namespace Corwords.Web.Extensions
+namespace Corwords.Web.Core.Extensions
 {
     public class PasswordAttribute : ValidationAttribute
     {

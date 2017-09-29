@@ -43,9 +43,13 @@ namespace Corwords.Web.Migrations
 
                     b.Property<string>("Author");
 
+                    b.Property<int>("BlogId");
+
                     b.Property<string>("Body");
 
                     b.Property<DateTime>("DateCreated");
+
+                    b.Property<int>("OriginalBlogPostId");
 
                     b.Property<string>("Permalink");
 
@@ -54,6 +58,8 @@ namespace Corwords.Web.Migrations
                     b.Property<string>("Title");
 
                     b.HasKey("BlogPostId");
+
+                    b.HasIndex("BlogId");
 
                     b.ToTable("Corwords_BlogPost");
                 });
@@ -106,6 +112,14 @@ namespace Corwords.Web.Migrations
                     b.HasKey("TagId");
 
                     b.ToTable("Corwords_Tag");
+                });
+
+            modelBuilder.Entity("Corwords.Web.Models.BlogPost", b =>
+                {
+                    b.HasOne("Corwords.Web.Models.Blog", "Blog")
+                        .WithMany("BlogPosts")
+                        .HasForeignKey("BlogId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Corwords.Web.Models.BlogPostBlogTag", b =>

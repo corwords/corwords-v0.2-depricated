@@ -43,7 +43,7 @@ namespace Corwords.Web.Controllers
             if (ModelState.IsValid)
             {
                 // Add the blog
-                var blogManager = new BlogManager(_corwordsDbContext);
+                var blogManager = new BlogManager(_corwordsDbContext, _generalSettings.Value);
                 var blogId = blogManager.CreateBlog(vm.BlogName, vm.BlogUrl, vm.EmailAddress);
 
                 // Next, add a default role called Administrators

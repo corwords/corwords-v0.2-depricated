@@ -1,5 +1,4 @@
 ﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Corwords.Web.Models
@@ -12,6 +11,7 @@ namespace Corwords.Web.Models
         public string BaseUrl { get; set; }
         public string Username { get; set; }
 
+        public List<BlogPost> BlogPosts { get; set; }
         public List<BlogTag> BlogTags { get; set; }
     }
 }

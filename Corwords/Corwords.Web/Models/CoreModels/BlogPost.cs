@@ -16,7 +16,10 @@ namespace Corwords.Web.Models
         public string Author { get; set; }
         public string Slug { get; set; }
         public string Permalink { get; set; }
+        public int OriginalBlogPostId { get; set; }
 
+        public int BlogId { get; set; }
+        public Blog Blog { get; set; }
         public List<BlogPostBlogTag> BlogPostBlogTags { get; set; }
     }
 }

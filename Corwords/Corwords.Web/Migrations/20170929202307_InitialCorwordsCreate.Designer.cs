@@ -11,8 +11,8 @@ using System;
 namespace Corwords.Web.Migrations
 {
     [DbContext(typeof(CorwordsDbContext))]
-    [Migration("20170929042116_AddTagsAndBlogTags")]
-    partial class AddTagsAndBlogTags
+    [Migration("20170929202307_InitialCorwordsCreate")]
+    partial class InitialCorwordsCreate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,6 +35,52 @@ namespace Corwords.Web.Migrations
                     b.HasKey("BlogId");
 
                     b.ToTable("Corwords_Blog");
+                });
+
+            modelBuilder.Entity("Corwords.Web.Models.BlogPost", b =>
+                {
+                    b.Property<int>("BlogPostId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Author");
+
+                    b.Property<int>("BlogId");
+
+                    b.Property<string>("Body");
+
+                    b.Property<DateTime>("DateCreated");
+
+                    b.Property<int>("OriginalBlogPostId");
+
+                    b.Property<string>("Permalink");
+
+                    b.Property<string>("Slug");
+
+                    b.Property<string>("Title");
+
+                    b.HasKey("BlogPostId");
+
+                    b.HasIndex("BlogId");
+
+                    b.ToTable("Corwords_BlogPost");
+                });
+
+            modelBuilder.Entity("Corwords.Web.Models.BlogPostBlogTag", b =>
+                {
+                    b.Property<int>("BlogPostBlogTagId")
+                        .ValueGeneratedOnAdd();
+
+                    b.Property<int>("BlogPostId");
+
+                    b.Property<int>("BlogTagId");
+
+                    b.HasKey("BlogPostBlogTagId");
+
+                    b.HasIndex("BlogPostId");
+
+                    b.HasIndex("BlogTagId");
+
+                    b.ToTable("Corwords_BlogPostBlogTag");
                 });
 
             modelBuilder.Entity("Corwords.Web.Models.BlogTag", b =>
@@ -67,6 +113,27 @@ namespace Corwords.Web.Migrations
                     b.HasKey("TagId");
 
                     b.ToTable("Corwords_Tag");
+                });
+
+            modelBuilder.Entity("Corwords.Web.Models.BlogPost", b =>
+                {
+                    b.HasOne("Corwords.Web.Models.Blog", "Blog")
+                        .WithMany("BlogPosts")
+                        .HasForeignKey("BlogId")
+                        .OnDelete(DeleteBehavior.Cascade);
+                });
+
+            modelBuilder.Entity("Corwords.Web.Models.BlogPostBlogTag", b =>
+                {
+                    b.HasOne("Corwords.Web.Models.BlogPost", "BlogPost")
+                        .WithMany("BlogPostBlogTags")
+                        .HasForeignKey("BlogPostId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("Corwords.Web.Models.BlogTag", "BlogTag")
+                        .WithMany("BlogPostBlogTags")
+                        .HasForeignKey("BlogTagId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 
             modelBuilder.Entity("Corwords.Web.Models.BlogTag", b =>

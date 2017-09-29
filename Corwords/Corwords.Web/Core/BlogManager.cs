@@ -3,16 +3,21 @@ using Corwords.Web.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
+using System;
+using Corwords.Web.Models.Configuration;
+using Corwords.Web.Core.Extensions;
 
 namespace Corwords.Web.Core
 {
     public class BlogManager : IBlogManager
     {
         private readonly CorwordsDbContext _corwordsDbContext;
+        private readonly GeneralSettings _generalSettings;
 
-        public BlogManager(CorwordsDbContext corwordsDbContext)
+        public BlogManager(CorwordsDbContext corwordsDbContext, GeneralSettings generalSettings)
         {
             _corwordsDbContext = corwordsDbContext;
+            _generalSettings = generalSettings;
         }
 
         public int CreateBlog(string name, string url, string username)
@@ -69,6 +74,28 @@ namespace Corwords.Web.Core
             }
 
             return dbBlogTag.BlogTagId;
+        }
+
+        public BlogPost AddPost(int blogId, string title, string body, DateTime dateCreated, string username)
+        {
+            var blog = _corwordsDbContext.Blogs.First(f => f.BlogId == blogId);
+
+            // Scrub the slug and make it unique if it's not
+            var slug = title.SlugEncode();
+
+            var dbDuplicateSlug = blog.BlogPosts.FirstOrDefault(w => w.Slug == slug);
+            if (dbDuplicateSlug != null)
+                slug += "-" + dateCreated.Year.ToString() + "_" + dateCreated.Month.ToString() + "_" + dateCreated.Date.ToString();
+
+            // Generate the permalink
+            var permalink = _generalSettings.WebsiteUrl + blog.BaseUrl + slug;
+
+            // Create the post
+            var blogPost = new BlogPost { Author = username, BlogId = blogId, Body = body, DateCreated = dateCreated, Permalink = permalink, Slug = slug, Title = title };
+            _corwordsDbContext.Add(blogPost);
+            _corwordsDbContext.SaveChanges();
+
+            return blogPost;
         }
     }
 }
