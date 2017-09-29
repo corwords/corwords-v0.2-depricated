@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using System;
 using System.Linq;
-using System.Threading.Tasks;
 using WilderMinds.MetaWeblog;
 
 namespace Corwords.Web.Services
@@ -17,6 +16,9 @@ namespace Corwords.Web.Services
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly IOptionsSnapshot<GeneralSettings> _generalSettings;
         private readonly BlogManager _blogManager;
+
+        private const string unauthorizedMessage = "The username and password combination supplied is invalid, or the user does not have access to this blog. Please check the credentials and try again.";
+        private const string blogIdExceptionmessage = "The format of the blog ID was incorrect. Please check the value and try again.";
 
         public CorMetaWeblogService(
             SignInManager<ApplicationUser> signInManager,
@@ -32,8 +34,7 @@ namespace Corwords.Web.Services
 
         public UserInfo GetUserInfo(string key, string username, string password)
         {
-            if (!Login(username, password))
-                throw new UnauthorizedAccessException("The username and password combination supplied is invalid. Please check the credentials and try again.");
+            LoginCheck(username, password);
 
             var mgr = _userManager.FindByNameAsync(username);
             mgr.RunSynchronously();
@@ -68,6 +69,7 @@ namespace Corwords.Web.Services
             throw new NotImplementedException();
         }
 
+        // Returns the post ID
         public string AddPost(string blogid, string username, string password, Post post, bool publish)
         {
             LoginCheck(username, password);
@@ -88,8 +90,11 @@ namespace Corwords.Web.Services
 
         public CategoryInfo[] GetCategories(string blogid, string username, string password)
         {
-            LoginCheck(username, password);
-            return _blogManager.GetBlogTags(int.Parse(blogid)).Select(s => new CategoryInfo { categoryid = s.TagId.ToString(), title = s.Title, description = s.Description, htmlUrl = "", rssUrl = "" }).ToArray();
+            if (!int.TryParse(blogid, out int bId))
+                throw new ArgumentException(blogIdExceptionmessage);
+
+            LoginCheck(username, password, bId);
+            return _blogManager.GetBlogTags(bId).Select(s => new CategoryInfo { categoryid = s.TagId.ToString(), title = s.Title, description = s.Description, htmlUrl = "", rssUrl = "" }).ToArray();
         }
 
         public MediaObjectInfo NewMediaObject(string blogid, string username, string password, MediaObject mediaObject)
@@ -100,8 +105,14 @@ namespace Corwords.Web.Services
 
         public int AddCategory(string key, string username, string password, NewCategory category)
         {
-            LoginCheck(username, password);
-            throw new NotImplementedException();
+            if (!int.TryParse(key, out int blogId))
+                throw new ArgumentException(blogIdExceptionmessage);
+
+            LoginCheck(username, password, blogId);
+
+            var tag = _blogManager.AddTag(category.name, category.description);
+
+            return _blogManager.AddBlogTag(blogId, tag);
         }
 
         private bool Login(string username, string password)
@@ -115,7 +126,15 @@ namespace Corwords.Web.Services
         private void LoginCheck(string username, string password)
         {
             if (!Login(username, password))
-                throw new UnauthorizedAccessException("The username and password combination supplied is invalid. Please check the credentials and try again.");
+                throw new UnauthorizedAccessException(unauthorizedMessage);
+        }
+
+        private void LoginCheck(string username, string password, int blogid)
+        {
+            LoginCheck(username, password);
+
+            if (!_blogManager.ValidUserBlog(username, blogid))
+                throw new UnauthorizedAccessException(unauthorizedMessage);
         }
     }
 }

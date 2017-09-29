@@ -44,10 +44,10 @@ namespace Corwords.Web.Controllers
             {
                 // Add the blog
                 var blogManager = new BlogManager(_corwordsDbContext);
-                blogManager.CreateBlog(vm.BlogName, vm.BlogUrl, vm.EmailAddress);
+                var blogId = blogManager.CreateBlog(vm.BlogName, vm.BlogUrl, vm.EmailAddress);
 
                 // Next, add a default role called Administrators
-                if (ModelState.ErrorCount == 0)
+                if (ModelState.ErrorCount == 0 && blogId > 0)
                 {
                     var roleResult = await _roleManager.CreateAsync(new ApplicationRole { Name = roleName });
                     if (!roleResult.Succeeded)

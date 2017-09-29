@@ -5,9 +5,12 @@ namespace Corwords.Web.Core
 {
     public interface IBlogManager
     {
-        void CreateBlog(string name, string url, string username);
-
+        int CreateBlog(string name, string url, string username);
+        bool ValidUserBlog(string username, int blogId);
         List<Blog> GetBlogs(string username);
+
         List<Tag> GetBlogTags(int blogId);
+        Tag AddTag(string title, string description);
+        int AddBlogTag(int blogId, Tag tag);
     }
 }
