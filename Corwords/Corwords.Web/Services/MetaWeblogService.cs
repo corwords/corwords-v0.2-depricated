@@ -53,7 +53,7 @@ namespace Corwords.Web.Services
         public BlogInfo[] GetUsersBlogs(string key, string username, string password)
         {
             LoginCheck(username, password);
-            return _blogManager.GetBlogs(username).Select(s => new BlogInfo() { blogid = s.BlogId.ToString(), blogName = s.Name, url = s.BaseUrl }).ToArray();
+            return _blogManager.GetBlogs(username).Select(s => new BlogInfo { blogid = s.BlogId.ToString(), blogName = s.Name, url = s.BaseUrl }).ToArray();
         }
 
         public Post GetPost(string postid, string username, string password)
@@ -89,7 +89,7 @@ namespace Corwords.Web.Services
         public CategoryInfo[] GetCategories(string blogid, string username, string password)
         {
             LoginCheck(username, password);
-            throw new NotImplementedException();
+            return _blogManager.GetBlogTags(int.Parse(blogid)).Select(s => new CategoryInfo { categoryid = s.TagId.ToString(), title = s.Title, description = s.Description, htmlUrl = "", rssUrl = "" }).ToArray();
         }
 
         public MediaObjectInfo NewMediaObject(string blogid, string username, string password, MediaObject mediaObject)

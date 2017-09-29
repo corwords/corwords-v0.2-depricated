@@ -8,5 +8,6 @@ namespace Corwords.Web.Core
         void CreateBlog(string name, string url, string username);
 
         List<Blog> GetBlogs(string username);
+        List<Tag> GetBlogTags(int blogId);
     }
 }

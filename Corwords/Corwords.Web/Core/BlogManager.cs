@@ -1,9 +1,8 @@
 ﻿using Corwords.Web.Data;
 using Corwords.Web.Models;
-using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace Corwords.Web.Core
 {
@@ -25,6 +24,11 @@ namespace Corwords.Web.Core
         public List<Blog> GetBlogs(string username)
         {
             return _corwordsDbContext.Blogs.Where(w => w.Username == username).ToList();
+        }
+
+        public List<Tag> GetBlogTags(int blogId)
+        {
+            return _corwordsDbContext.Tags.Include(i => i.BlogTags.Select(s => s.BlogId == blogId)).ToList();
         }
     }
 }
