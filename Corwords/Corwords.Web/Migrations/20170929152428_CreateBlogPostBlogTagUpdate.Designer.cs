@@ -11,9 +11,10 @@ using System;
 namespace Corwords.Web.Migrations
 {
     [DbContext(typeof(CorwordsDbContext))]
-    partial class CorwordsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20170929152428_CreateBlogPostBlogTagUpdate")]
+    partial class CreateBlogPostBlogTagUpdate
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
