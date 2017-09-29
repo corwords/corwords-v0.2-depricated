@@ -6,7 +6,7 @@ namespace Corwords.Web.Models
 {
     public class Blog
     {
-        [Key, DatabaseGenerated(DatabaseGeneratedOption.Identity)]
+        [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int BlogId { get; set; }
         public string Name { get; set; }
         public string BaseUrl { get; set; }
