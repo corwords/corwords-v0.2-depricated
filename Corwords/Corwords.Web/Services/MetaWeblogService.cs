@@ -80,7 +80,11 @@ namespace Corwords.Web.Services
 
             LoginCheck(username, password, bId);
 
-            throw new NotImplementedException();
+            var blogPost = _blogManager.AddPost(bId, post.title, post.description, post.dateCreated, username);
+
+            //foreach (var category in post.categories)
+
+            return blogPost.BlogPostId.ToString();
         }
 
         public bool DeletePost(string key, string postid, string username, string password, bool publish)

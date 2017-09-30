@@ -40,7 +40,7 @@ namespace Corwords.Web.Core
 
         public List<Tag> GetBlogTags(int blogId)
         {
-            return _corwordsDbContext.Tags.Include(i => i.BlogTags.Select(s => s.BlogId == blogId)).ToList();
+            return _corwordsDbContext.Tags.Where(w => w.BlogTags.Exists(e => e.BlogId == blogId)).ToList();
         }
 
         public Tag AddTag(string title, string description)
