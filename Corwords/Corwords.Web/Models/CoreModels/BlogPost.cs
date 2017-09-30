@@ -20,6 +20,7 @@ namespace Corwords.Web.Models
 
         public int BlogId { get; set; }
         public Blog Blog { get; set; }
-        public List<BlogPostBlogTag> BlogPostBlogTags { get; set; }
+
+        public List<BlogPostTag> BlogPostTags { get; set; }
     }
 }

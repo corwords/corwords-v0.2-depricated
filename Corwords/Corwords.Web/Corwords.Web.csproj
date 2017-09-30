@@ -13,6 +13,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="Models\CoreModels\BlogPostBlogTag.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Compile Include="Core\MVC\IsAppFirstRunAttribute.cs" />
   </ItemGroup>
 

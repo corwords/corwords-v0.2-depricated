@@ -21,8 +21,8 @@ namespace Corwords.Web.Data
             builder.Entity<BlogPost>()
                 .HasKey(k => k.BlogPostId);
 
-            builder.Entity<BlogPostBlogTag>()
-                .HasKey(k => k.BlogPostBlogTagId);
+            builder.Entity<BlogPostTag>()
+                .HasKey(k => k.BlogPostTagId);
 
             builder.Entity<BlogTag>()
                 .HasKey(k => k.BlogTagId);
@@ -41,20 +41,20 @@ namespace Corwords.Web.Data
                 .WithMany(p => p.BlogTags)
                 .HasForeignKey(fk => fk.TagId);
 
-            builder.Entity<BlogPostBlogTag>()
-                .HasOne(pt => pt.BlogTag)
-                .WithMany(p => p.BlogPostBlogTags)
-                .HasForeignKey(fk => fk.BlogTagId);
-
-            builder.Entity<BlogPostBlogTag>()
+            builder.Entity<BlogPostTag>()
                 .HasOne(pt => pt.BlogPost)
-                .WithMany(p => p.BlogPostBlogTags)
+                .WithMany(p => p.BlogPostTags)
                 .HasForeignKey(fk => fk.BlogPostId);
+
+            builder.Entity<BlogPostTag>()
+                .HasOne(pt => pt.Tag)
+                .WithMany(p => p.BlogPostTags)
+                .HasForeignKey(fk => fk.TagId);
 
             // Update table prefix
             builder.Entity<Blog>().ToTable(prefix + "Blog");
             builder.Entity<BlogPost>().ToTable(prefix + "BlogPost");
-            builder.Entity<BlogPostBlogTag>().ToTable(prefix + "BlogPostBlogTag");
+            builder.Entity<BlogPostTag>().ToTable(prefix + "BlogPostTag");
             builder.Entity<BlogTag>().ToTable(prefix + "BlogTag");
             builder.Entity<Tag>().ToTable(prefix + "Tag");
         }
