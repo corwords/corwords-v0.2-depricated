@@ -78,7 +78,7 @@ namespace Corwords.Web.Core
 
         public BlogPost AddPost(int blogId, string title, string body, DateTime dateCreated, string username)
         {
-            var blog = _corwordsDbContext.Blogs.First(f => f.BlogId == blogId);
+            var blog = _corwordsDbContext.Blogs.Include(i => i.BlogPosts).First(f => f.BlogId == blogId);
 
             // Scrub the slug and make it unique if it's not
             var slug = title.SlugEncode();
