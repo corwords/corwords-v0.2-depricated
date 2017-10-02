@@ -70,7 +70,18 @@ namespace Corwords.Web.Services
                 throw new ArgumentException(blogIdExceptionmessage);
 
             LoginCheck(username, password, bId);
-            throw new NotImplementedException();
+
+            /// todo Add Categories to the Recent Posts method
+            return _blogManager.GetLatestPosts(bId, numberOfPosts).Select(s => new Post
+            {
+                postid = s.BlogPostId,
+                title = s.Title,
+                userid = s.Author,
+                description = s.Body,
+                permalink = s.Permalink,
+                wp_slug = s.Slug,
+                dateCreated = s.DateCreated
+            }).ToArray();
         }
 
         // Returns the post ID

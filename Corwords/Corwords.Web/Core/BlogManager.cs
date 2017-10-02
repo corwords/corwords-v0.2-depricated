@@ -102,6 +102,11 @@ namespace Corwords.Web.Core
             return blogPost;
         }
 
+        public List<BlogPost> GetLatestPosts(int blogId, int count)
+        {
+            return _corwordsDbContext.BlogPosts.Include(i => i.BlogPostTags).OrderByDescending(d => d.DateCreated).Take(count).ToList<BlogPost>();
+        }
+
         public bool DeletePost(int postId)
         {
             var post = _corwordsDbContext.BlogPosts.FirstOrDefault(f => f.BlogPostId == postId);
