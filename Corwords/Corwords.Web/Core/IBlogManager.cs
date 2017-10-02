@@ -11,6 +11,7 @@ namespace Corwords.Web.Core
         List<Blog> GetBlogs(string username);
 
         BlogPost AddPost(int blogId, string title, string body, DateTime dateCreated, string username);
+        bool DeletePost(int postId);
 
         List<Tag> GetBlogTags(int blogId);
         Tag AddTag(string title, string description);

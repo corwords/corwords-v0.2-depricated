@@ -44,7 +44,7 @@ namespace Corwords.Web.Core
                         .Include(i => i.BlogTags)
                             .Where(w => w.BlogTags.Any(a => a.BlogId == blogId)).ToList();
 
-            return tags; //_corwordsDbContext.Tags.Where(w => w.BlogTags.Exists(e => e.BlogId == blogId)).ToList();
+            return tags;
         }
 
         public Tag AddTag(string title, string description)
@@ -100,6 +100,18 @@ namespace Corwords.Web.Core
             _corwordsDbContext.SaveChanges();
 
             return blogPost;
+        }
+
+        public bool DeletePost(int postId)
+        {
+            var post = _corwordsDbContext.BlogPosts.FirstOrDefault(f => f.BlogPostId == postId);
+            if (post == null)
+                return false;
+            post.DateDeleted = DateTime.UtcNow;
+
+            _corwordsDbContext.Update(post);
+            _corwordsDbContext.SaveChanges();
+            return true;
         }
     }
 }

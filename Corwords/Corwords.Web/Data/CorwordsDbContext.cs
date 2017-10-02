@@ -8,6 +8,7 @@ namespace Corwords.Web.Data
         public CorwordsDbContext(DbContextOptions<CorwordsDbContext> options) : base(options) { }
 
         public DbSet<Blog> Blogs { get; set; }
+        public DbSet<BlogPost> BlogPosts { get; set; }
         public DbSet<Tag> Tags { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
