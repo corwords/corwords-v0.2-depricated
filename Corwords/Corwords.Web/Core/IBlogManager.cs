@@ -10,7 +10,7 @@ namespace Corwords.Web.Core
         bool ValidUserBlog(string username, int blogId);
         List<Blog> GetBlogs(string username);
 
-        BlogPost AddPost(int blogId, string title, string body, DateTime dateCreated, string username);
+        BlogPost AddPost(int blogId, string title, string body, string[] tags, DateTime dateCreated, string username);
         bool DeletePost(int postId);
         List<BlogPost> GetLatestPosts(int blogId, int count);
 

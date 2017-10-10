@@ -80,7 +80,7 @@ namespace Corwords.Web.Core
             return dbBlogTag.BlogTagId;
         }
 
-        public BlogPost AddPost(int blogId, string title, string body, DateTime dateCreated, string username)
+        public BlogPost AddPost(int blogId, string title, string body, string[] tags, DateTime dateCreated, string username)
         {
             var blog = _corwordsDbContext.Blogs.Include(i => i.BlogPosts).First(f => f.BlogId == blogId);
 
@@ -97,6 +97,14 @@ namespace Corwords.Web.Core
             // Create the post
             var blogPost = new BlogPost { Author = username, BlogId = blogId, Body = body, DateCreated = dateCreated, Permalink = permalink, Slug = slug, Title = title };
             _corwordsDbContext.Add(blogPost);
+            _corwordsDbContext.SaveChanges();
+
+            // Add Tags
+            foreach (var category in tags)
+            {
+                var tag = AddTag(category, "");
+                blogPost.BlogPostTags.Add(new BlogPostTag { BlogPost = blogPost, BlogPostId = blogPost.BlogPostId, Tag = tag, TagId = tag.TagId });
+            }
             _corwordsDbContext.SaveChanges();
 
             return blogPost;

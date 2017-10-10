@@ -92,13 +92,7 @@ namespace Corwords.Web.Services
 
             LoginCheck(username, password, bId);
 
-            var blogPost = _blogManager.AddPost(bId, post.title, post.description, post.dateCreated, username);
-
-            foreach (var category in post.categories)
-            {
-                var tag = _blogManager.AddTag(category, "");
-                blogPost.BlogPostTags.Add(new BlogPostTag { BlogPost = blogPost, BlogPostId = blogPost.BlogPostId, Tag = tag, TagId = tag.TagId });
-            }
+            var blogPost = _blogManager.AddPost(bId, post.title, post.description, post.categories, post.dateCreated, username);
 
             return blogPost.BlogPostId.ToString();
         }
