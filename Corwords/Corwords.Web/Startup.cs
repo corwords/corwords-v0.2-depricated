@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using WilderMinds.MetaWeblog;
 
 namespace Corwords.Web
@@ -61,7 +62,7 @@ namespace Corwords.Web
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ApplicationDbContext applicationDbContext, CorwordsDbContext corwordsDbContext)
+        public void Configure(IApplicationBuilder app, IHostingEnvironment env, IOptions<AppSettings> appSettings, ApplicationDbContext applicationDbContext, CorwordsDbContext corwordsDbContext)
         {
             if (env.IsDevelopment())
             {
@@ -82,7 +83,7 @@ namespace Corwords.Web
 
             app.UseETagger();
 
-            var blogSettings = Configuration.GetSection("BlogSettings") as BlogSettings;
+            var blogSettings = appSettings.Value.BlogSettings;
             app.UseMetaWeblog(blogSettings.MetaweblogEndpoint);
 
             app.UseMvc(ConfigureRoutes);
