@@ -24,6 +24,11 @@ namespace Corwords.Web.Controllers
             _blogManager = new BlogManager(corwordsDbContext, generalSettings.Value);
         }
 
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         public IActionResult Rsd()
         {
             var homepage = _generalSettings.Value.WebsiteUrl;
