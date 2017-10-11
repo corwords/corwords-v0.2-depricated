@@ -33,9 +33,14 @@ namespace Corwords.Web.Core
             return _corwordsDbContext.Blogs.Where(w => w.Username == username && w.BlogId == blogId).Any();
         }
 
+        public List<Blog> GetBlogs()
+        {
+            return _corwordsDbContext.Blogs.OrderBy(o => o.BlogId).ToList();
+        }
+
         public List<Blog> GetBlogs(string username)
         {
-            return _corwordsDbContext.Blogs.Where(w => w.Username == username).ToList();
+            return _corwordsDbContext.Blogs.Where(w => w.Username == username).OrderBy(o => o.BlogId).ToList();
         }
 
         public List<Tag> GetBlogTags(int blogId)

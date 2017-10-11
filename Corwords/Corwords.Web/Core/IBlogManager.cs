@@ -8,6 +8,7 @@ namespace Corwords.Web.Core
     {
         int CreateBlog(string name, string url, string username);
         bool ValidUserBlog(string username, int blogId);
+        List<Blog> GetBlogs();
         List<Blog> GetBlogs(string username);
 
         BlogPost AddPost(int blogId, string title, string body, string[] tags, DateTime dateCreated, string username);

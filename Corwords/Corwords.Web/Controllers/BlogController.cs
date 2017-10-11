@@ -1,4 +1,5 @@
-﻿using Corwords.Web.Core.Configuration;
+﻿using Corwords.Web.Core;
+using Corwords.Web.Data;
 using Corwords.Web.Models.Configuration;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
@@ -9,18 +10,25 @@ namespace Corwords.Web.Controllers
     public class BlogController : Controller
     {
         private readonly IOptions<AppSettings> _appSettings;
-        private readonly IWritableOptions<GeneralSettings> _generalSettings;
+        private readonly IOptionsSnapshot<GeneralSettings> _generalSettings;
+        private readonly CorwordsDbContext _corwordsDbContext;
+        private readonly BlogManager _blogManager;
 
-        public BlogController(IOptions<AppSettings> appSettings, IWritableOptions<GeneralSettings> generalSettings)
+        public BlogController(IOptions<AppSettings> appSettings, 
+                              IOptionsSnapshot<GeneralSettings> generalSettings,
+                              CorwordsDbContext corwordsDbContext)
         {
             _appSettings = appSettings;
             _generalSettings = generalSettings;
+            _corwordsDbContext = corwordsDbContext;
+            _blogManager = new BlogManager(corwordsDbContext, generalSettings.Value);
         }
 
         public IActionResult Rsd()
         {
             var homepage = _generalSettings.Value.WebsiteUrl;
             var metaweblog = _appSettings.Value.BlogSettings.MetaweblogEndpoint;
+            var blogs = _blogManager.GetBlogs();
 
             var content = new StringBuilder();
             content.AppendLine("<?xml version=\"1.0\" encoding=\"UTF-8\" ?>");
@@ -30,8 +38,8 @@ namespace Corwords.Web.Controllers
             content.AppendLine("<enginelink>http://corwords.com/</enginelink>");
             content.AppendLine("<homepagelink>" + homepage + "</homepagelink>");
             content.AppendLine("<apis>");
-            /// todo Enumerate blogs to get the various blogids
-            content.AppendLine("<api name=\"MetaWeblog\" blogid=\"1\" preferred=\"true\" apilink=\"" + homepage + metaweblog + "\" />");
+            foreach(var blog in blogs)
+                content.AppendLine("<api name=\"MetaWeblog\" blogid=\"" + blog.BlogId.ToString() + "\" preferred=\"true\" apilink=\"" + homepage + metaweblog + "\" />");
             content.AppendLine("</apis>");
             content.AppendLine("</service>");
             content.AppendLine("</rsd>");
