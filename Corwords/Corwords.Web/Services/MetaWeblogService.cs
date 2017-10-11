@@ -20,6 +20,7 @@ namespace Corwords.Web.Services
         private const string unauthorizedMessage = "The username and password combination supplied is invalid, or the user does not have access to this blog. Please check the credentials and try again.";
         private const string blogIdExceptionmessage = "The format of the blog ID was incorrect. Please check the value and try again.";
         private const string postIdExceptionMessage = "The format of the post ID was incorrect. Please check the value and try again.";
+        private const string postNullMessage = "The post cannot be located.";
 
         public CorMetaWeblogService(
             SignInManager<ApplicationUser> signInManager,
@@ -99,13 +100,15 @@ namespace Corwords.Web.Services
 
         public bool DeletePost(string key, string postid, string username, string password, bool publish)
         {
-            if (!int.TryParse(key, out int bId))
-                throw new ArgumentException(blogIdExceptionmessage);
-
             if (!int.TryParse(postid, out int pId))
                 throw new ArgumentException(postIdExceptionMessage);
 
-            LoginCheck(username, password, bId);
+            var post = _blogManager.GetPost(pId);
+
+            if (post == null)
+                throw new ArgumentException(postNullMessage);
+
+            LoginCheck(username, password, post.BlogId);
 
             return _blogManager.DeletePost(pId);
         }

@@ -115,6 +115,11 @@ namespace Corwords.Web.Core
             return _corwordsDbContext.BlogPosts.Include(i => i.BlogPostTags).OrderByDescending(d => d.DateCreated).Take(count).ToList<BlogPost>();
         }
 
+        public BlogPost GetPost(int postId)
+        {
+            return _corwordsDbContext.BlogPosts.Include(i => i.BlogPostTags).FirstOrDefault(f => f.BlogPostId == postId);
+        }
+
         public bool DeletePost(int postId)
         {
             var post = _corwordsDbContext.BlogPosts.FirstOrDefault(f => f.BlogPostId == postId);
