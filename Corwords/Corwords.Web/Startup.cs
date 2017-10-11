@@ -82,7 +82,8 @@ namespace Corwords.Web
 
             app.UseETagger();
 
-            app.UseMetaWeblog("/metaweblog");
+            var blogSettings = Configuration.GetSection("BlogSettings") as BlogSettings;
+            app.UseMetaWeblog(blogSettings.MetaweblogEndpoint);
 
             app.UseMvc(ConfigureRoutes);
         }
