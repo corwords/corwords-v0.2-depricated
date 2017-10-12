@@ -9,6 +9,7 @@ namespace Corwords.Web.Data
 
         public DbSet<Blog> Blogs { get; set; }
         public DbSet<BlogPost> BlogPosts { get; set; }
+        public DbSet<RouteFact> RouteFacts { get; set; }
         public DbSet<Tag> Tags { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
@@ -27,6 +28,9 @@ namespace Corwords.Web.Data
 
             builder.Entity<BlogTag>()
                 .HasKey(k => k.BlogTagId);
+
+            builder.Entity<RouteFact>()
+                .HasKey(k => k.RouteFactId);
 
             builder.Entity<Tag>()
                 .HasKey(k => k.TagId);
@@ -57,6 +61,7 @@ namespace Corwords.Web.Data
             builder.Entity<BlogPost>().ToTable(prefix + "BlogPost");
             builder.Entity<BlogPostTag>().ToTable(prefix + "BlogPostTag");
             builder.Entity<BlogTag>().ToTable(prefix + "BlogTag");
+            builder.Entity<RouteFact>().ToTable(prefix + "RouteFact");
             builder.Entity<Tag>().ToTable(prefix + "Tag");
         }
 
