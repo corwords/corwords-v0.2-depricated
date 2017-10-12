@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
+using System;
 using WilderMinds.MetaWeblog;
 
 namespace Corwords.Web
@@ -86,23 +87,19 @@ namespace Corwords.Web
             var blogSettings = appSettings.Value.BlogSettings;
             app.UseMetaWeblog(blogSettings.MetaweblogEndpoint);
 
-            _corwordsDbContext = corwordsDbContext;
-            app.UseMvc(ConfigureRoutes);
-        }
+            app.UseMvc(routes =>
+            {
+                // First Run Route
+                // Removed as we cannot currently remove routes without recycling the app.
+                routes.MapRoute("firstrun", "{*firstrun}", new { controller = "Init", action = "Begin" }, new { firstrun = new FirstRunContraint() });
 
-        private CorwordsDbContext _corwordsDbContext;
+                // Dynamic Router
+                routes.MapRoute("corwords", "{*corwords}", new { controller = "DynamicUrlRouter", action = "Route" }, 
+                    new { corwords = new DynamicUrlConstraint(() => app.ApplicationServices.CreateScope().ServiceProvider.GetRequiredService<CorwordsDbContext>()) });
 
-        private void ConfigureRoutes(IRouteBuilder routeBuilder)
-        {
-            // First Run Route
-            // Removed as we cannot currently remove routes without recycling the app.
-            routeBuilder.MapRoute("firstrun", "{*firstrun}", new { controller = "Init", action = "Begin" }, new { firstrun = new FirstRunContraint() });
-
-            // Dynamic Router
-            routeBuilder.MapRoute("corwords", "{*corwords}", new { controller = "DynamicUrlRouter", action = "Route" }, new { corwords = new DynamicUrlConstraint(_corwordsDbContext) });
-
-            // Base Route
-            routeBuilder.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}");
+                // Base Route
+                routes.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}");
+            });
         }
     }
 }

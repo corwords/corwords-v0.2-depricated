@@ -8,9 +8,9 @@ namespace Corwords.Web.Core.Configuration
 {
     public class DynamicUrlConstraint : IRouteConstraint
     {
-        private readonly CorwordsDbContext _corwordsDbContext;
+        private readonly Func<CorwordsDbContext> _corwordsDbContext;
 
-        public DynamicUrlConstraint(CorwordsDbContext corwordsDbContext)
+        public DynamicUrlConstraint(Func<CorwordsDbContext> corwordsDbContext)
         {
             _corwordsDbContext = corwordsDbContext;
         }
@@ -19,8 +19,9 @@ namespace Corwords.Web.Core.Configuration
         {
             if (values[routeKey] != null)
             {
+                var dbContext = _corwordsDbContext();
                 var url = "/" + values[routeKey].ToString();
-                var dynamicRoute = _corwordsDbContext.RouteFacts.FirstOrDefault(f => f.Url == url && (f.DateDiscontinued == null || f.DateDiscontinued >= DateTime.UtcNow));
+                var dynamicRoute = dbContext.RouteFacts.FirstOrDefault(f => f.Url == url && (f.DateDiscontinued == null || f.DateDiscontinued >= DateTime.UtcNow));
                 if (dynamicRoute != null)
                 {
                     httpContext.Items["corwordsPage"] = dynamicRoute;
