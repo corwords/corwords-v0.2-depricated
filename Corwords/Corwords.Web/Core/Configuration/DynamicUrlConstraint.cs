@@ -1,6 +1,8 @@
 ﻿using Corwords.Web.Data;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
+using System;
+using System.Linq;
 
 namespace Corwords.Web.Core.Configuration
 {
@@ -17,8 +19,8 @@ namespace Corwords.Web.Core.Configuration
         {
             if (values[routeKey] != null)
             {
-                var url = values[routeKey].ToString();
-                return false; // return _corwordsDbContext.Routes.Any(a => a.Url == url);
+                var url = "/" + values[routeKey].ToString();
+                return _corwordsDbContext.RouteFacts.Any(a => a.Url == url && (a.DateDiscontinued == null || a.DateDiscontinued >= DateTime.UtcNow));
             }
             return false;
         }
