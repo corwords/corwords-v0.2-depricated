@@ -12,9 +12,10 @@ using System;
 namespace Corwords.Web.Migrations
 {
     [DbContext(typeof(CorwordsDbContext))]
-    partial class CorwordsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20171012014821_AddDynamicRouteTable")]
+    partial class AddDynamicRouteTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
