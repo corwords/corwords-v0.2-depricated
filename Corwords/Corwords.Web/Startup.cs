@@ -86,14 +86,20 @@ namespace Corwords.Web
             var blogSettings = appSettings.Value.BlogSettings;
             app.UseMetaWeblog(blogSettings.MetaweblogEndpoint);
 
+            _corwordsDbContext = corwordsDbContext;
             app.UseMvc(ConfigureRoutes);
         }
+
+        private CorwordsDbContext _corwordsDbContext;
 
         private void ConfigureRoutes(IRouteBuilder routeBuilder)
         {
             // First Run Route
             // Removed as we cannot currently remove routes without recycling the app.
             routeBuilder.MapRoute("firstrun", "{*firstrun}", new { controller = "Init", action = "Begin" }, new { firstrun = new FirstRunContraint() });
+
+            // Dynamic Router
+            routeBuilder.MapRoute("corwords", "{*corwords}", new { controller = "DynamicUrlRouter", action = "Route" }, new { corwords = new DynamicUrlConstraint(_corwordsDbContext) });
 
             // Base Route
             routeBuilder.MapRoute(name: "default", template: "{controller=Home}/{action=Index}/{id?}");
