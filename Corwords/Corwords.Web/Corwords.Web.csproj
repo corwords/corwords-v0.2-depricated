@@ -17,7 +17,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Include="Core\MVC\IRouteManager.cs" />
     <Compile Include="Core\MVC\IsAppFirstRunAttribute.cs" />
+    <Compile Include="Core\MVC\RouteManager.cs" />
   </ItemGroup>
 
   <ItemGroup>

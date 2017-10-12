@@ -48,8 +48,8 @@ namespace Corwords.Web.Controllers
                 var blogId = blogManager.CreateBlog(vm.BlogName, vm.BlogUrl, vm.EmailAddress);
 
                 // Add the route
-                _corwordsDbContext.RouteFacts.Add(new RouteFact { DateCreated = DateTime.UtcNow, Url = vm.BlogUrl, RouteType = DynamicRouteType.Blog });
-                _corwordsDbContext.SaveChanges();
+                var routeManager = new RouteManager(_corwordsDbContext);
+                var routeId = routeManager.AddRoute(vm.BlogUrl, DynamicRouteType.Blog);
 
                 // Next, add a default role called Administrators
                 if (ModelState.ErrorCount == 0 && blogId > 0)
