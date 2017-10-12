@@ -25,6 +25,23 @@ namespace Corwords.Web.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "Corwords_RouteFact",
+                columns: table => new
+                {
+                    RouteFactId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                    DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    DateDiscontinued = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    ForwardTo = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    RouteType = table.Column<int>(type: "int", nullable: false),
+                    Url = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Corwords_RouteFact", x => x.RouteFactId);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Corwords_Tag",
                 columns: table => new
                 {
@@ -48,7 +65,8 @@ namespace Corwords.Web.Migrations
                     BlogId = table.Column<int>(type: "int", nullable: false),
                     Body = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DateCreated = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    OriginalBlogPostId = table.Column<int>(type: "int", nullable: false),
+                    DateDeleted = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    OriginalBlogPostId = table.Column<int>(type: "int", nullable: true),
                     Permalink = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Slug = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: true)
@@ -149,6 +167,9 @@ namespace Corwords.Web.Migrations
 
             migrationBuilder.DropTable(
                 name: "Corwords_BlogTag");
+
+            migrationBuilder.DropTable(
+                name: "Corwords_RouteFact");
 
             migrationBuilder.DropTable(
                 name: "Corwords_BlogPost");
