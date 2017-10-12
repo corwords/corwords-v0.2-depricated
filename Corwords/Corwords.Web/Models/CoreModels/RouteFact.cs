@@ -13,6 +13,6 @@ namespace Corwords.Web.Models
         public string ForwardTo { get; set; }
 
         public DateTime DateCreated { get; set; }
-        public DateTime DateDiscontinued { get; set; }
+        public DateTime? DateDiscontinued { get; set; }
     }
 }

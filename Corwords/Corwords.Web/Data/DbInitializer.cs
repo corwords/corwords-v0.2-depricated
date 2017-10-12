@@ -13,8 +13,8 @@ namespace Corwords.Web.Data
         public static void Initialize(ApplicationDbContext appContext, CorwordsDbContext context)
         {
             // Ensure databases are created
-            //appContext.Database.EnsureCreated();
-            //context.Database.EnsureCreated();
+            appContext.Database.EnsureCreated();
+            context.Database.EnsureCreated();
 
             // Seed the defaults if they do not exist
         }
