@@ -12,7 +12,7 @@ namespace Corwords.Web.Models
         public DynamicRouteType RouteType { get; set; }
         public string ForwardTo { get; set; }
 
-        public DateTime DateCreate { get; set; }
+        public DateTime DateCreated { get; set; }
         public DateTime DateDiscontinued { get; set; }
     }
 }

@@ -1,12 +1,14 @@
 ﻿using Corwords.Web.Core;
 using Corwords.Web.Core.Configuration;
 using Corwords.Web.Core.MVC;
+using Corwords.Web.Core.Types;
 using Corwords.Web.Data;
 using Corwords.Web.Models;
 using Corwords.Web.Models.Configuration;
 using Corwords.Web.Models.CoreViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -44,6 +46,10 @@ namespace Corwords.Web.Controllers
                 // Add the blog
                 var blogManager = new BlogManager(_corwordsDbContext, _generalSettings.Value);
                 var blogId = blogManager.CreateBlog(vm.BlogName, vm.BlogUrl, vm.EmailAddress);
+
+                // Add the route
+                _corwordsDbContext.RouteFacts.Add(new RouteFact { DateCreated = DateTime.UtcNow, Url = vm.BlogUrl, RouteType = DynamicRouteType.Blog });
+                _corwordsDbContext.SaveChanges();
 
                 // Next, add a default role called Administrators
                 if (ModelState.ErrorCount == 0 && blogId > 0)

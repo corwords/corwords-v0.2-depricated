@@ -108,7 +108,7 @@ namespace Corwords.Web.Migrations
                     b.Property<int>("RouteFactId")
                         .ValueGeneratedOnAdd();
 
-                    b.Property<DateTime>("DateCreate");
+                    b.Property<DateTime>("DateCreated");
 
                     b.Property<DateTime>("DateDiscontinued");
 
