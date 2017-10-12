@@ -7,7 +7,6 @@ using Corwords.Web.Models.Configuration;
 using Corwords.Web.Models.CoreViewModels;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
 
