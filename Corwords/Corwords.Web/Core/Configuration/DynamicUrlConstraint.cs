@@ -20,7 +20,12 @@ namespace Corwords.Web.Core.Configuration
             if (values[routeKey] != null)
             {
                 var url = "/" + values[routeKey].ToString();
-                return _corwordsDbContext.RouteFacts.Any(a => a.Url == url && (a.DateDiscontinued == null || a.DateDiscontinued >= DateTime.UtcNow));
+                var dynamicRoute = _corwordsDbContext.RouteFacts.FirstOrDefault(f => f.Url == url && (f.DateDiscontinued == null || f.DateDiscontinued >= DateTime.UtcNow));
+                if (dynamicRoute != null)
+                {
+                    httpContext.Items["corwordsPage"] = dynamicRoute;
+                    return true;
+                }
             }
             return false;
         }
