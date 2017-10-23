@@ -20,7 +20,7 @@ namespace Corwords.Web.Core.Configuration
             if (values[routeKey] != null)
             {
                 var dbContext = _corwordsDbContext();
-                var url = "/" + values[routeKey].ToString();
+                var url = "/" + values[routeKey].ToString().TrimStart('/').TrimEnd('/');
                 var dynamicRoute = dbContext.RouteFacts.FirstOrDefault(f => f.Url == url && (f.DateDiscontinued == null || f.DateDiscontinued >= DateTime.UtcNow));
                 if (dynamicRoute != null)
                 {
