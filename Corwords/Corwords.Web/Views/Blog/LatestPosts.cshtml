@@ -1,7 +1,16 @@
-﻿
+﻿@model List<BlogPost>
 @{
     ViewData["Title"] = "LatestPosts";
 }
 
-<h2>LatestPosts</h2>
+<h2>Latest Posts</h2>
 
+@foreach(var post in Model)
+{
+    <div>
+        @post.Title
+    </div>
+    <div>
+        @post.Body
+    </div>
+}
