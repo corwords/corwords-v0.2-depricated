@@ -44,8 +44,9 @@ namespace Corwords.Web.Controllers
             if (ModelState.IsValid)
             {
                 // Add the blog
+                vm.BlogUrl = "/" + vm.BlogUrl;
                 var blogManager = new BlogManager(_corwordsDbContext, _generalSettings.Value);
-                var blogId = blogManager.CreateBlog(vm.BlogName, "/" + vm.BlogUrl, vm.EmailAddress);
+                var blogId = blogManager.CreateBlog(vm.BlogName, vm.BlogUrl, vm.EmailAddress);
 
                 // Add the route
                 var routeManager = new RouteManager(_corwordsDbContext);
