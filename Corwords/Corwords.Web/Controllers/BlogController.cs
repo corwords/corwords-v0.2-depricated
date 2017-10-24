@@ -24,10 +24,15 @@ namespace Corwords.Web.Controllers
             _blogManager = new BlogManager(corwordsDbContext, generalSettings.Value);
         }
 
-        public IActionResult LatestPosts(int blogId)
+        public IActionResult LatestPosts(string slug)
         {
-            var latestPosts = _blogManager.GetLatestPosts(blogId, 10);
+            var latestPosts = _blogManager.GetLatestPosts(slug, 10);
             return View(latestPosts);
+        }
+
+        public IActionResult GetPost()
+        {
+            return View();
         }
 
         public IActionResult Rsd()
