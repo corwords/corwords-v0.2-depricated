@@ -35,7 +35,6 @@ namespace Corwords.Web.Controllers
                 case DynamicRouteType.Blog:
                     var latestPosts = _blogManager.GetLatestPosts(page.Url, 10);
                     return View("~/Views/Blog/LatestPosts.cshtml", latestPosts);
-                    //return RedirectToAction("LatestPosts", "Blog", new { slug = page.Url });
                 default:
                     break;
             }
