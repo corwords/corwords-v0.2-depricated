@@ -43,6 +43,11 @@ namespace Corwords.Web.Core
             return _corwordsDbContext.Blogs.Where(w => w.Username == username).OrderBy(o => o.BlogId).ToList();
         }
 
+        public Blog GetBlog(string slug)
+        {
+            return _corwordsDbContext.Blogs.FirstOrDefault(f => f.BaseUrl == slug);
+        }
+
         public List<Tag> GetBlogTags(int blogId)
         {
             var tags = _corwordsDbContext.Tags
@@ -118,6 +123,14 @@ namespace Corwords.Web.Core
         public List<BlogPost> GetLatestPosts(int blogId, int count)
         {
             return _corwordsDbContext.BlogPosts.Include(i => i.BlogPostTags).OrderByDescending(d => d.DateCreated).Take(count).ToList<BlogPost>();
+        }
+
+        public List<BlogPost> GetLatestPosts(string slug, int count)
+        {
+            var blog = GetBlog(slug);
+            if (blog == null)
+                return new List<BlogPost>();
+            return GetLatestPosts(blog.BlogId, count);
         }
 
         public BlogPost GetPost(int postId)
