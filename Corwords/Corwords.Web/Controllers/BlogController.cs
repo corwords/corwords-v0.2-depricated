@@ -14,7 +14,7 @@ namespace Corwords.Web.Controllers
         private readonly CorwordsDbContext _corwordsDbContext;
         private readonly BlogManager _blogManager;
 
-        public BlogController(IOptions<AppSettings> appSettings, 
+        public BlogController(IOptions<AppSettings> appSettings,
                               IOptionsSnapshot<GeneralSettings> generalSettings,
                               CorwordsDbContext corwordsDbContext)
         {
@@ -22,12 +22,6 @@ namespace Corwords.Web.Controllers
             _generalSettings = generalSettings;
             _corwordsDbContext = corwordsDbContext;
             _blogManager = new BlogManager(corwordsDbContext, generalSettings.Value);
-        }
-
-        public IActionResult LatestPosts(string slug)
-        {
-            var latestPosts = _blogManager.GetLatestPosts(slug, 10);
-            return View(latestPosts);
         }
 
         public IActionResult GetPost()
@@ -49,7 +43,7 @@ namespace Corwords.Web.Controllers
             content.AppendLine("<enginelink>http://corwords.com/</enginelink>");
             content.AppendLine("<homepagelink>" + homepage + "</homepagelink>");
             content.AppendLine("<apis>");
-            foreach(var blog in blogs)
+            foreach (var blog in blogs)
                 content.AppendLine("<api name=\"MetaWeblog\" blogid=\"" + blog.BlogId.ToString() + "\" preferred=\"true\" apilink=\"" + homepage + metaweblog + "\" />");
             content.AppendLine("</apis>");
             content.AppendLine("</service>");
