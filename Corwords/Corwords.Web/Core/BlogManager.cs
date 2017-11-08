@@ -125,7 +125,7 @@ namespace Corwords.Web.Core
 
         public List<BlogPost> GetLatestPosts(int blogId, int count)
         {
-            return _corwordsDbContext.BlogPosts.Include(i => i.BlogPostTags).OrderByDescending(d => d.DateCreated).Take(count).ToList<BlogPost>();
+            return _corwordsDbContext.BlogPosts.Include(i => i.BlogPostTags).Where(w => w.DateDeleted == null).OrderByDescending(d => d.DateCreated).Take(count).ToList<BlogPost>();
         }
 
         public List<BlogPost> GetLatestPosts(string slug, int count)
