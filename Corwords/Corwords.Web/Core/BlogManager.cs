@@ -102,7 +102,10 @@ namespace Corwords.Web.Core
                 slug += "-" + dateCreated.Year.ToString() + "_" + dateCreated.Month.ToString() + "_" + dateCreated.Date.ToString();
 
             // Generate the permalink
-            var permalink = _generalSettings.WebsiteUrl + blog.BaseUrl + slug;
+            var baseUrl = blog.BaseUrl;
+            if (!baseUrl.EndsWith("/"))
+                baseUrl = baseUrl + "/";
+            var permalink = _generalSettings.WebsiteUrl + baseUrl + slug;
 
             // Create the post
             var blogPost = new BlogPost { Author = username, BlogId = blogId, Body = body, DateCreated = dateCreated, Permalink = permalink, Slug = slug, Title = title };
